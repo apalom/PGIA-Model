@@ -89,18 +89,11 @@ for line in range(numLine):
         t_theta = theta[t_bus-2];
     
     P_flows[line] = base*(f_theta - t_theta)/df['Branch'].x[line];
-    Amp_flow[line] = P_flows[line]
 
-# Calculate Load Flows
+Amp_flows = np.sqrt(abs(P_flows)/df['Branch'].x);
 
-P12 = base*(0 - theta[0])/df['Branch'].x[0]
-P13 = base*(0 - theta[1])/df['Branch'].x[1]
-P24 = base*(theta[0] - theta[2])/df['Branch'].x[2]
-P34 = base*(theta[1] - theta[2])/df['Branch'].x[3]
-
+# Compare Flows with MATPOWER Results
 matP_flows = np.array([-38.46, -97.09, 133.25, 104.75])
-
-
 err = abs(P_flows-matP_flows)/matP_flows;
 
 # timeit statement
