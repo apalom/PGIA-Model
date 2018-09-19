@@ -7,24 +7,24 @@ Created on Wed Sep 19 16:30:52 2018
 """
 
 # start timer 
-start_time = timeit.default_timer()
+timeMain = timeit.default_timer()
 
 # import libraries
 import pandas as pd
 import numpy as np
 import timeit
 
+# Load Data Function Call 
+from funcLoadData import *
+[dfSys, dfHome, dfEV] = funcLoadData()
 
-# Import Case File
-df = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\sys\case4gs.xlsx', sheet_name=None, header=0)
 
-# function call 
-from funcDCPF import funcDCPF
-
-[B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(df)
+# DC Powerflow Function Call 
+from funcDCPF import *
+[B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
 
 
 
 # timeit statement
-elapsed = timeit.default_timer() - start_time
-print('Main time: {0:.4f} sec'.format(elapsed))
+elapsedMain = timeit.default_timer() - timeMain
+print('Main time: {0:.4f} sec'.format(elapsedMain))

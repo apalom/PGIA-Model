@@ -5,7 +5,7 @@ Created on Wed Sep 19 09:28:33 2018
 @author: Alex
 """
 
-def funcDCPF(df):
+def funcDCPF(dfSys):
     
     # import libraries
     import pandas as pd
@@ -13,11 +13,11 @@ def funcDCPF(df):
     import timeit
     
     # start timer 
-    start_time = timeit.default_timer()
+    timeDCPF = timeit.default_timer()
     
     ##---- Initialize Values ----##
     base = 100;
-    numBus = len(df['Bus'])
+    numBus = len(dfSys['Bus'])
     
     err = 10;
     threshold = 0.1;
@@ -26,10 +26,10 @@ def funcDCPF(df):
     B = np.zeros((numBus, numBus));
     
     for bus in range(0,numBus):
-        f_Bus = df['Branch'].fbus[bus]
-        t_Bus = df['Branch'].tbus[bus]
-        B[f_Bus-1,t_Bus-1] = -1/(df['Branch'].x[bus])
-        B[t_Bus-1,f_Bus-1] = -1/(df['Branch'].x[bus])
+        f_Bus = dfSys['Branch'].fbus[bus]
+        t_Bus = dfSys['Branch'].tbus[bus]
+        B[f_Bus-1,t_Bus-1] = -1/(dfSys['Branch'].x[bus])
+        B[t_Bus-1,f_Bus-1] = -1/(dfSys['Branch'].x[bus])
         print(f_Bus, t_Bus)
     
     for bus in range(0,numBus):  
@@ -41,16 +41,16 @@ def funcDCPF(df):
     P_load = np.zeros(numBus);
     # Bus Net P Gen
     for bus in range(0,numBus):
-        busNode = df['Bus'].bus_i[bus]
+        busNode = dfSys['Bus'].bus_i[bus]
         print('busNode: ' + str(busNode))
         try:
-            idx  = df['Bus'].index[df['Bus'].bus_i == busNode][0]
-            P_load[busNode-1] = df['Bus'].Pd[idx]
-            idx  = df['Gen'].index[df['Gen'].bus == busNode][0]
-            P_gen[busNode-1] = df['Gen'].Pg[idx]
+            idx  = dfSys['Bus'].index[dfSys['Bus'].bus_i == busNode][0]
+            P_load[busNode-1] = dfSys['Bus'].Pd[idx]
+            idx  = dfSys['Gen'].index[dfSys['Gen'].bus == busNode][0]
+            P_gen[busNode-1] = dfSys['Gen'].Pg[idx]
     
         except KeyError:
-            print('  KeyError')
+            print(' KeyError')
         except IndexError:
             print('  IndexError')
             
@@ -65,33 +65,33 @@ def funcDCPF(df):
     theta = np.matmul(np.linalg.inv(B0),(-P_net0))
     
     # Calculate P Flows
-    numLine = len(df['Branch']);
+    numLine = len(dfSys['Branch']);
     P_flows = np.zeros(numLine);
     
     for line in range(numLine):
         # Get from bus angle
-        f_bus = df['Branch'].fbus[line]
+        f_bus = dfSys['Branch'].fbus[line]
         if f_bus == 1:
             f_theta = 0;
         else:
             f_theta = theta[f_bus-2];
         # Get to bus angle    
-        t_bus = df['Branch'].tbus[line]
+        t_bus = dfSys['Branch'].tbus[line]
         if t_bus == 1:
             t_theta = 0;
         else:
             t_theta = theta[t_bus-2];
         
-        P_flows[line] = base*(f_theta - t_theta)/df['Branch'].x[line];
+        P_flows[line] = base*(f_theta - t_theta)/dfSys['Branch'].x[line];
     
-    Amp_flows = np.sqrt(abs(P_flows)/df['Branch'].x);
+    Amp_flows = np.sqrt(abs(P_flows)/dfSys['Branch'].x);
     
     # Compare Flows with MATPOWER Results
     matP_flows = np.array([-38.46, -97.09, 133.25, 104.75])
     err = abs(P_flows-matP_flows)/matP_flows;
     
     # timeit statement
-    elapsed = timeit.default_timer() - start_time
-    print('funcDCPF time: {0:.4f} sec'.format(elapsed))
+    elapsedDCPF = timeit.default_timer() - timeDCPF
+    print('funcDCPF time: {0:.4f} sec'.format(elapsedDCPF))
 
     return (B, B0, P_net, P_net0, theta, P_flows, Amp_flows)
