@@ -15,14 +15,20 @@ import numpy as np
 import timeit
 
 # Load Data Function Call 
-from funcLoadData import *
-[dfSys, dfHome, dfEV] = funcLoadData()
+#from funcLoadData import *
+#[dfSys, dfHome, dfEV] = funcLoadData()
+
+day_P_flows = np.zeros((24,len(dfSys)+1))
 
 
-# DC Powerflow Function Call 
-from funcDCPF import *
-[B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
+for hr in range(24):
+    dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
 
+    # DC Powerflow Function Call 
+    from funcDCPF import *
+    [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
+    
+    day_P_flows[hr,:] = P_flows;
 
 
 # timeit statement
