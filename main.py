@@ -14,12 +14,18 @@ import pandas as pd
 import numpy as np
 import timeit
 
+ #select day for home load analysis
+day = '2015-07-01';
+
 # Load Data Function Call 
 #from funcLoadData import *
 #[dfSys, dfHome, dfEV] = funcLoadData()
 
-day_P_flows = np.zeros((24,len(dfSys)+1))
+# Filter Home Load Data for Single Day
+from funcPeakDay import *
+[day, dfHomeDay] = funcPeakDay(day, dfHome)
 
+day_P_flows = np.zeros((24,len(dfSys)+1))
 
 for hr in range(24):
     #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
