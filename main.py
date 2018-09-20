@@ -14,8 +14,11 @@ import pandas as pd
 import numpy as np
 import timeit
 
- #select day for home load analysis
-day = '2015-07-01';
+#---- Define Parameters ----#
+day = '2015-07-01'; # peak day for analysis
+maxEV = 2;
+XFMR = 50;
+
 
 # Load Data Function Call 
 #from funcLoadData import *

@@ -17,7 +17,8 @@ def funcPeakDay(day, dfHome):
         print(' AttributeError')
         dfHomeDay = dfHome.loc[dfHome['DATE'] == day]
     
-    
-    
+    dfHomeDay = dfHomeDay.reset_index(drop=True)
+    dfHomeDay = dfHomeDay.drop(columns=['DATE', 'Hour'])
+        
     return (day, dfHomeDay)
 
