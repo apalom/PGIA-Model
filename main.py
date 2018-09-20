@@ -22,7 +22,7 @@ day_P_flows = np.zeros((24,len(dfSys)+1))
 
 
 for hr in range(24):
-    dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
+    #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
 
     # DC Powerflow Function Call 
     from funcDCPF import *
