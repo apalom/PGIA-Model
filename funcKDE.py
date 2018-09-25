@@ -10,5 +10,6 @@ def funcKDE(dfHome, hr, numHomes):
     loadHr = dfHomeDay.iloc[hr]
     my_kde = st.gaussian_kde(loadHr)
     loadHrSample = my_kde.resample(numHomes)
+    loadHrSample = loadHrSample.clip(min = 0)
     
     return (loadHrSample)

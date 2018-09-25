@@ -14,16 +14,16 @@ import timeit
 # start timer 
 timeMain = timeit.default_timer()
 
+# Load Data Function Call 
+from funcLoadData import *
+[dfSys, dfHome, dfEV] = funcLoadData()
+
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 maxEV = 2;
 numHomes = 12;
 XFMR = 50;
-
-
-# Load Data Function Call 
-from funcLoadData import *
-[dfSys, dfHome, dfEV] = funcLoadData()
+numHomes = len(dfSys) + 1
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
@@ -37,6 +37,7 @@ for hr in range(24):
     # Apply KDE to Home Loads
     from funcKDE import*
     [loadHrSample] = funcKDE(dfHome, hr, numHomes)
+    dfSys['Bus'].Pd = loadSample[0][:]
 
     # DC Powerflow Function Call 
     from funcDCPF import *

@@ -25,11 +25,15 @@ fig1 = fig.add_subplot(111)
 
 kde_dist = my_kde(x)
 #%%
-    
+
+numHomes = 4;
+hr = 19;
 loadHr = dfHomeDay.iloc[hr]
 my_kde = st.gaussian_kde(loadHr)
 loadSample = my_kde.resample(numHomes)
-    
+loadSample = loadSample.clip(min = 0)
+
+
 
 #%%
 fig, ax = plt.subplots()
