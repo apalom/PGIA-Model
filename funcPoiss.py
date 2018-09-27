@@ -13,8 +13,10 @@ def funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes):
     percentConnected = dfEV['Q3_max'][hr]
     numConnected = np.random.poisson(maxEV * percentConnected)
     
-    numConnected = numConnected.clip(max = maxEV)
     
+    if (numConnected > maxEV):
+        numConnected = maxEV
+        
     EVatHome = np.zeros(maxEV)
     
     if (numConnected == 0):
@@ -28,12 +30,14 @@ def funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes):
     elif (numConnected == maxEV):
         EVatHome = np.ones(maxEV)
         
-    loadEV = np.zeros(len(dfSys['Bus']))
+    loadEV_kW = np.zeros(len(dfSys['Bus']))
     
     i = 0
     for el in EVstoHomes:        
-        loadEV[el] = EVatHome[i] * chgrRate
+        loadEV_kW[el] = EVatHome[i] * chgrRate
         i += 1
     
-    return (EVatHome, loadEV)
+    loadEV_kVAR = 0.62*loadEV_kW
+    
+    return (EVatHome, loadEV_kW, loadEV_kVAR)
 
