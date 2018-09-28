@@ -27,7 +27,8 @@ XFMR = 50; # Transformer rating (kVA)
 secondaryL = 100 # Meters = 328 ft
 chgrRate = 19.2; # Average charger power rating (kW)
 maxEV = 4;
-numHomes = len(dfSys) + 1
+numHomes = 12;
+numBuses = len(dfSys) + 1
 EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
 
 # Filter Home Load Data for Single Day
@@ -45,13 +46,16 @@ for hr in range(24):
 
     # Apply KDE to Home Loads
     from funcKDE import *
-    [loadHome_kW, loadHome_kVAR] = funcKDE(dfHomeDay, hr, numHomes)
+    [perBusLoad_kW, perBusLoad_kVAR] = funcKDE(dfHomeDay, hr, numHomes, numBuses)
     day_Home_kW [hr,:] = loadHome_kW
 
     # Apply Poisson to EV Loads
     from funcPoiss import *
     [EVatHome, loadEV_kW, loadEV_kVAR] = funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes)
     day_EV_kW[hr,:] = loadEV_kW
+    
+    # Calculate Bus-Wise Total Loads
+    from funcTotalLoads import *
     
     # Sum Home and EV Loads
     dfSys['Bus'].Pd = (loadHome_kW + loadEV_kW)[0][:]

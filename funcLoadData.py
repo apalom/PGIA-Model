@@ -14,7 +14,7 @@ def funcLoadData():
     #---- Import Case ----#
     timeLoadCase = timeit.default_timer()
     
-    dfSys0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\case4gs.xlsx', sheet_name=None, header=0)
+    dfSys0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\case12.xlsx', sheet_name=None, header=0)
     dfSys = dfSys0;
     
     elapsedLoadCase = timeit.default_timer() - timeLoadCase
