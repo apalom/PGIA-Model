@@ -28,18 +28,19 @@ secondaryL = 100 # Meters = 328 ft
 chgrRate = 6.6; # Average charger power rating (kW)
 maxEV = 4;
 numHomes = 12;
-numBuses = len(dfSys['Bus']) 
-EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+numBuses = len(dfSys['Bus']) ;
+numLines = numBuses - 1;
+EVstoHomes = np.random.permutation(numHomes)[0:maxEV];
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
 [day, dfHomeDay] = funcPeakDay(day, dfHome)
 
-day_P_flows = np.zeros((24,numBuses))
-day_Amp_flows = np.zeros((24,numBuses))
+day_P_flows = np.zeros((24,numLines))
+day_Amp_flows = np.zeros((24,numLines))
 day_Home_kW = np.zeros((24,numBuses))
 day_EV_kW = np.zeros((24,numBuses))
-daySlack_kW_kVAR = np.zeros((24,2))
+day_Slack_kW_kVAR = np.zeros((24,2))
 
 for hr in range(24):
     #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))

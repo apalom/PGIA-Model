@@ -61,11 +61,14 @@ def funcDCPF(dfSys, hr):
     P_net0 = P_net[1:numBus];
     B0 = B[1:numBus,1:numBus];
     
+    # Calcualte off-diagonal B-elements
     for bus in range(0,numBus-1):  
-        B0[bus,bus] = -np.sum(B0[bus,:])
+        B0[bus,bus] = -np.sum(B0[:,bus])
     
     # Calculate theta = inv(B)*P
     theta = np.matmul(np.linalg.inv(B0),(-P_net0))
+    # Compute the (Moore-Penrose) pseudo-inverse of a matrix.
+    #theta = np.matmul(np.linalg.pinv(B0),(-P_net0))
     
     # Calculate P Flows
     numLine = len(dfSys['Branch']);
@@ -90,8 +93,8 @@ def funcDCPF(dfSys, hr):
     Amp_flows = np.sqrt(abs(P_flows)/dfSys['Branch'].x);
     
     # Compare Flows with MATPOWER Results
-    matP_flows = np.array([-38.46, -97.09, 133.25, 104.75])
-    err = abs(P_flows-matP_flows)/matP_flows;
+    #matP_flows = np.array([-38.46, -97.09, 133.25, 104.75])
+    #err = abs(P_flows-matP_flows)/matP_flows;
     
     # timeit statement
     elapsedDCPF = timeit.default_timer() - timeDCPF
