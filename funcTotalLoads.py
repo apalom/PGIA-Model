@@ -13,7 +13,10 @@ def funcTotalLoads(loadHome_kW, loadHome_kVAR, loadEV_kW, loadEV_kVAR, dfSys):
     perBusLoad_kW = np.zeros((1, len(dfSys['Bus'])))
     perBusLoad_kVAR = np.zeros((1, len(dfSys['Bus'])))
     
-    perBusLoad_kW = 
-    perBusLoad_kVAR = 
+    #Bus 9 
+    perBusLoad_kW[0][8] = loadHome_kW[0][1] + loadHome_kW[0][2]
+    perBusLoad_kVAR[0][8] = loadHome_kVAR[0][1] + loadHome_kVAR[0][2]
     
-
+    #Bus 9 
+    perBusLoad_kW[0][8] = loadHome_kW[0][1] + loadHome_kW[0][2]
+    perBusLoad_kVAR[0][8] = loadHome_kVAR[0][1] + loadHome_kVAR[0][2]
