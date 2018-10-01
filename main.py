@@ -28,7 +28,7 @@ secondaryL = 100 # Meters = 328 ft
 chgrRate = 6.6; # Average charger power rating (kW)
 maxEV = 4;
 numHomes = 12;
-numBuses = len(dfSys['Bus']) + 1
+numBuses = len(dfSys['Bus']) 
 EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
 
 # Filter Home Load Data for Single Day
@@ -65,7 +65,7 @@ for hr in range(24):
             
     # DC Powerflow Function Call 
     from funcDCPF import *
-    [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
+    [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys, hr)
     
     # Record daily energy import
     day_Slack_kW_kVAR[hr,0] = sum(sum(loadHome_kW + loadEV_kW))

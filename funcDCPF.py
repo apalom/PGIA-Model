@@ -5,7 +5,7 @@ Created on Wed Sep 19 09:28:33 2018
 @author: Alex
 """
 
-def funcDCPF(dfSys):
+def funcDCPF(dfSys, hr):
     
     # import libraries
     import pandas as pd
@@ -15,9 +15,12 @@ def funcDCPF(dfSys):
     # start timer 
     timeDCPF = timeit.default_timer()
     
+    print('Hr: ', hr)
+    
     ##---- Initialize Values ----##
     base = 100;
     numBus = len(dfSys['Bus'])
+    numLine = numBus - 1
     
     err = 10;
     threshold = 0.1;
@@ -25,16 +28,13 @@ def funcDCPF(dfSys):
     # Build B Matrix
     B = np.zeros((numBus, numBus));
     
-    for bus in range(0,numBus):
-        f_Bus = dfSys['Branch'].fbus[bus]
-        t_Bus = dfSys['Branch'].tbus[bus]
-        B[f_Bus-1,t_Bus-1] = -1/(dfSys['Branch'].x[bus])
-        B[t_Bus-1,f_Bus-1] = -1/(dfSys['Branch'].x[bus])
+    for line in range(0,numLine):
+        f_Bus = dfSys['Branch'].fbus[line]
+        t_Bus = dfSys['Branch'].tbus[line]
+        B[f_Bus-1,t_Bus-1] = -1/(dfSys['Branch'].x[line])
+        B[t_Bus-1,f_Bus-1] = -1/(dfSys['Branch'].x[line])
         print(f_Bus, t_Bus)
-    
-    for bus in range(0,numBus):  
-        B[bus,bus] = -np.sum(B[:,bus])
-    
+        
     # Calculate Net P 
     P_net = np.zeros(numBus);
     P_gen = np.zeros(numBus);
@@ -60,6 +60,9 @@ def funcDCPF(dfSys):
     # Remove Slack Bus Row
     P_net0 = P_net[1:numBus];
     B0 = B[1:numBus,1:numBus];
+    
+    for bus in range(0,numBus-1):  
+        B0[bus,bus] = -np.sum(B0[bus,:])
     
     # Calculate theta = inv(B)*P
     theta = np.matmul(np.linalg.inv(B0),(-P_net0))

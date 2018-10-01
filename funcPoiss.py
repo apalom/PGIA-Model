@@ -42,23 +42,40 @@ def funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes, numHomes, numBuses):
     # Note Homes 1 & 2 are on bus 9, H3-4 on b5, H5-6 b7
     # H7-8 on b8, H9-10 on b4, H11-12 on b6    
     
-    #Bus 9 
-    loadEV_kW[0][8] = samplePoiss_kW[0][0] + samplePoiss_kW[0][1]
+    #Bus 9     
+    bus9_kW = samplePoiss_kW[0][0] + samplePoiss_kW[0][1]
+    loadEV_kW[0][8] = bus9_kW
 
     #Bus 5 
-    loadEV_kW[0][4] = samplePoiss_kW[0][2] + samplePoiss_kW[0][3]
+    bus5_kW = bus9_kW + samplePoiss_kW[0][2] + samplePoiss_kW[0][3]
+    loadEV_kW[0][4] = bus5_kW
     
     #Bus 7 
-    loadEV_kW[0][6] = samplePoiss_kW[0][4] + samplePoiss_kW[0][5]
+    bus7_kW = samplePoiss_kW[0][4] + samplePoiss_kW[0][5]
+    loadEV_kW[0][6] = bus7_kW
+    
+    # Bus 3
+    bus3_kW = bus5_kW + bus7_kW
+    loadEV_kW[0][2] = bus3_kW
     
     #Bus 8
-    loadEV_kW[0][7] = samplePoiss_kW[0][6] + samplePoiss_kW[0][7]
+    bus8_kW = samplePoiss_kW[0][6] + samplePoiss_kW[0][7]
+    loadEV_kW[0][7] = bus8_kW
     
     #Bus 4
-    loadEV_kW[0][3] = samplePoiss_kW[0][8] + samplePoiss_kW[0][9]
+    bus4_kW = bus8_kW + samplePoiss_kW[0][8] + samplePoiss_kW[0][9]
+    loadEV_kW[0][3] = bus4_kW
     
     #Bus 6
-    loadEV_kW[0][5] = samplePoiss_kW[0][10] + samplePoiss_kW[0][11]
+    bus6_kW = samplePoiss_kW[0][10] + samplePoiss_kW[0][11]
+    loadEV_kW[0][5] = bus6_kW
+
+    # Bus 2
+    bus2_kW = bus4_kW + bus6_kW
+    loadEV_kW[0][1] = bus2_kW
+    
+    #Bus 1
+    loadEV_kW[0][0] = 0
 
     # Handle negative values and calculate kVAR        
     loadEV_kW = loadEV_kW.clip(min = 0)
