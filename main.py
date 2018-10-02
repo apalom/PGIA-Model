@@ -25,12 +25,12 @@ day = '2015-07-01'; # peak day for analysis
 
 XFMR = 50; # Transformer rating (kVA)
 secondaryL = 100 # Meters = 328 ft
-chgrRate = 6.6; # Average charger power rating (kW)
+chgrRate = 19.2; # Average charger power rating (kW)
 maxEV = 4;
 numHomes = 12;
-numBuses = len(dfSys['Bus']) ;
-numLines = numBuses - 1;
-EVstoHomes = np.random.permutation(numHomes)[0:maxEV];
+numBuses = len(dfSys['Bus'])
+numLines = len(dfSys['Branch'])
+EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
@@ -66,7 +66,7 @@ for hr in range(24):
             
     # DC Powerflow Function Call 
     from funcDCPF import *
-    [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys, hr)
+    [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
     
     # Record daily energy import
     day_Slack_kW_kVAR[hr,0] = sum(sum(loadHome_kW + loadEV_kW))
