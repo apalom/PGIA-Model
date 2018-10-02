@@ -16,9 +16,9 @@ from itertools import permutations
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-#from funcLoadData import *
-#[dfSys, dfHome, dfEV] = funcLoadData()
-#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+from funcLoadData import *
+[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
+dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
@@ -34,7 +34,7 @@ EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
-[day, dfHomeDay] = funcPeakDay(day, dfHome)
+[day, dfHomeDay, dfSolarDay] = funcPeakDay(day, dfHome, dfSolar)
 
 day_P_flows = np.zeros((24,numLines))
 day_Amp_flows = np.zeros((24,numLines))

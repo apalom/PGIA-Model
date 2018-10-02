@@ -5,7 +5,7 @@ Created on Wed Sep 19 19:53:21 2018
 @author: Alex
 """
 
-def funcPeakDay(day, dfHome):
+def funcPeakDay(day, dfHome, dfSolar):
     
     #import library
     from datetime import datetime
@@ -20,5 +20,15 @@ def funcPeakDay(day, dfHome):
     dfHomeDay = dfHomeDay.reset_index(drop=True)
     dfHomeDay = dfHomeDay.drop(columns=['DATE', 'Hour'])
         
-    return (day, dfHomeDay)
+    try:
+        dfSolar['Date'] = dfSolar['Date'].apply(lambda x: datetime.datetime.strftime(x, '%Y-%m-%d'));
+        dfSolarDay = dfSolar.loc[dfSolar['Date'] == day]
+    except AttributeError:
+        print(' AttributeError')
+        dfSolarDay = dfSolar.loc[dfSolar['Date'] == day]
+        
+    dfSolarDay = dfSolarDay.reset_index(drop=True)
+    dfSolarDay = dfSolarDay.drop(columns=['Year', 'Month', 'Day'])
+    
+    return (day, dfHomeDay, dfSolarDay)
 

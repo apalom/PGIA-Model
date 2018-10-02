@@ -38,4 +38,13 @@ def funcLoadData():
     elapsedLoadEV = timeit.default_timer() - timeLoadEV
     print('Load EV time: {0:.4f} sec'.format(elapsedLoadEV))
 
-    return (dfSys, dfHome, dfEV)
+    #---- Import Solar NSRDB Data ----#
+    timeLoadSolar= timeit.default_timer()
+    
+    dfSolar0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NSRDB_158327_2016.xlsx', header=0)
+    dfSolar = dfSolar0;
+    
+    elapsedLoadSolar = timeit.default_timer() - timeLoadSolar
+    print('Load Solar time: {0:.4f} sec'.format(elapsedLoadSolar))
+
+    return (dfSys, dfHome, dfEV, dfSolar)
