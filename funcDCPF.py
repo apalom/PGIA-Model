@@ -31,7 +31,7 @@ def funcDCPF(dfSys):
         t_Bus = dfSys['Branch'].tbus[line]
         B[f_Bus-1,t_Bus-1] = -1/(dfSys['Branch'].x[line])
         B[t_Bus-1,f_Bus-1] = -1/(dfSys['Branch'].x[line])
-        print(f_Bus, t_Bus)
+        #print(f_Bus, t_Bus)
     
     for bus in range(0,numBus):  
         B[bus,bus] = -np.sum(B[:,bus])
@@ -43,7 +43,7 @@ def funcDCPF(dfSys):
     # Bus Net P Gen
     for bus in range(0,numBus):
         busNode = dfSys['Bus'].bus_i[bus]
-        print('busNode: ' + str(busNode))
+        #print('busNode: ' + str(busNode))
         try:
             idx  = dfSys['Bus'].index[dfSys['Bus'].bus_i == busNode][0]
             P_load[busNode-1] = dfSys['Bus'].Pd[idx]
@@ -51,7 +51,7 @@ def funcDCPF(dfSys):
             P_gen[busNode-1] = dfSys['Gen'].Pg[idx]
     
         except KeyError:
-            print(' KeyError')
+            print('  KeyError')
         except IndexError:
             print('  IndexError')
             
@@ -93,6 +93,6 @@ def funcDCPF(dfSys):
     
     # timeit statement
     elapsedDCPF = timeit.default_timer() - timeDCPF
-    print('funcDCPF time: {0:.4f} sec'.format(elapsedDCPF))
+    #print('funcDCPF time: {0:.4f} sec'.format(elapsedDCPF))
 
     return (B, B0, P_net, P_net0, theta, P_flows, Amp_flows)
