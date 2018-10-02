@@ -1,57 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Sep 19 16:30:52 2018
+Created on Tue Oct  2 10:51:50 2018
 
 @author: Alex
-
 """
 
-# import libraries
-import pandas as pd
-import numpy as np
-import timeit
-from itertools import permutations 
 
-# start timer 
-timeMain = timeit.default_timer()
+# Calculate system values
+numBuses = len(dfSys['Bus'])
+numLines = len(dfSys['Branch'])
 
-# Load Data Function Call 
-#from funcLoadData import *
-#[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
-#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+# Randomly assign EV and PV to buses
+EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
 
-#---- Define Parameters ----#
-day = '2015-07-01'; # peak day for analysis
+# Initialize Day Calculations
+day_P_flows = np.zeros((24,numLines))
+day_Amp_flows = np.zeros((24,numLines))
+day_Home_kW = np.zeros((24,numBuses))
+day_EV_kW = np.zeros((24,numBuses))
+day_PV_kW = np.zeros((24,numBuses))
+day_Slack_kW_kVAR = np.zeros((24,2))
 
-maxTrial = 100
-XFMR = 50; # Transformer rating (kVA)
-secondaryL = 100 # Meters = 328 ft
-chgrRate = 19.2; # Average charger power rating (kW)
-maxEV = 4;
-maxPV = 4;
-numHomes = 12;
-
-
-inputData = {'maxTrial': [maxTrial], 
-             'XFMR': [XFMR], 
-             'secondaryL': [secondaryL], 
-             'chgrRate': [chgrRate], 
-             'maxEV': [maxEV], 
-             'maxPV': [maxPV], 
-             'numHomes': [numHomes]}
-
-dfInput = pd.DataFrame(data=inputData);
-
-# Filter Home Load Data for Single Day
-from funcPeakDay import *
-[day, dfHomeDay, dfSolarDay] = funcPeakDay(day, dfHome, dfSolar)
-
-# Run Monte Carlo
-from funcMonteCarlo import *
-[day, dfHomeDay, dfSolarDay] = funcPeakDay(day, dfSys, dfHome, dfEV, dfSolar, dfInput)
-
-
-'''
 for hr in range(24):
     #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
 
@@ -93,10 +63,3 @@ for hr in range(24):
     day_Slack_kW_kVAR[hr,1] = sum(sum(loadHome_kVAR + loadEV_kVAR))
     day_P_flows[hr,:] = P_flows;
     day_Amp_flows[hr,:] = Amp_flows;
-'''
-
-# timeit statement
-elapsedMain = timeit.default_timer() - timeMain
-print('Main time: {0:.4f} sec'.format(elapsedMain))
-
-print('\n [--- CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---]')
