@@ -21,38 +21,36 @@ def funcKDE(dfHomeDay, hr, numHomes, numBuses):
     loadHome_kVAR = np.zeros((1, numBuses))
     
     #Bus 9 
-    bus9_kW = sampleKDE_kW[0][0] + sampleKDE_kW[0][1]
+    bus9_kW = sampleKDE_kW[0][0] + sampleKDE_kW[0][1];
     loadHome_kW[0][8] = bus9_kW
 
     #Bus 5 
-    bus5_kW = bus9_kW + sampleKDE_kW[0][2] + sampleKDE_kW[0][3]
-    loadHome_kW[0][4] = bus5_kW
+    bus5_kW = sampleKDE_kW[0][2] + sampleKDE_kW[0][3]
+    loadHome_kW[0][4] = bus5_kW  
     
     #Bus 7 
     bus7_kW = sampleKDE_kW[0][4] + sampleKDE_kW[0][5]
     loadHome_kW[0][6] = bus7_kW
     
     #Bus 3 
-    bus3_kW = bus5_kW + bus7_kW
-    loadHome_kW[0][2] = bus3_kW
+    loadHome_kW[0][2] = 0
     
     #Bus 8
     bus8_kW = sampleKDE_kW[0][6] + sampleKDE_kW[0][7]
     loadHome_kW[0][7] = bus8_kW
     
     #Bus 4
-    bus4_kW = bus8_kW + sampleKDE_kW[0][8] + sampleKDE_kW[0][9]
+    bus4_kW = sampleKDE_kW[0][8] + sampleKDE_kW[0][9]
     loadHome_kW[0][3] = bus4_kW
     
     #Bus 6
     bus6_kW = sampleKDE_kW[0][10] + sampleKDE_kW[0][11]
     loadHome_kW[0][5] = bus6_kW
     
-    #Bus 2 
-    bus2_kW = bus8_kW + bus4_kW + bus6_kW
-    loadHome_kW[0][1] = bus2_kW
-
-    #Bus 1
+    #Bus 2
+    loadHome_kW[0][1] = 0
+    
+    #Slack Bus
     loadHome_kW[0][0] = 0
 
     # Handle negative values and calculate kVAR        
