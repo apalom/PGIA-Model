@@ -16,11 +16,12 @@ def funcSolar(maxPV, dfSolarDay, hr, PVtoHomes, numHomes, numBuses):
 
     # Profile from data   
     # DNI Direct Normal Radiation [w/m2]
-    SysSize = 30; # Assume 5kW system size ~ 30 m2
+    pvSize = 35; # Assume 6kW system size ~ 35 m2
+    pvEff = 0.20; # Assume system efficiency of 20%
             
   
     for el in PVtoHomes:        
-        sampleSolar_kW[0][el] = (dfSolarDay['DNI'][hr]/1000)*SysSize
+        sampleSolar_kW[0][el] = (dfSolarDay['DNI'][hr]/1000)*pvSize*pvEff
 
     # Note Homes 1 & 2 are on bus 9, H3-4 on b5, H5-6 b7
     # H7-8 on b8, H9-10 on b4, H11-12 on b6    

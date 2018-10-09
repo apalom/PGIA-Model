@@ -16,15 +16,15 @@ from itertools import permutations
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-#from funcLoadData import *
-#[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
-#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+from funcLoadData import *
+[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
+dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1000
+maxTrials = 10
 XFMR = 50; # Transformer rating (kVA)
 #secLength = 100 # Meters = 328 ft
 secLimit = 80 # Amps for Overload 
