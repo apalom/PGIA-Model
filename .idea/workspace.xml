@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="036b1460-ea14-45f9-a666-15734e27249e" name="Default" comment="" />
+    <list default="true" id="036b1460-ea14-45f9-a666-15734e27249e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viz/style.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/viz/case12_branch.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/.idea/workspace.xml" afterPath="$PROJECT_DIR$/viz/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/index.html" afterPath="$PROJECT_DIR$/viz/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/script.js" afterPath="$PROJECT_DIR$/viz/script.js" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +58,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -63,13 +70,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../SecurityWorkout" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Python" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -130,13 +136,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DC-OPF.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/DC-OPF.py" />
     <entry file="file://$PROJECT_DIR$/../CS6140_DataMining/CS6140_A1_HashPACIntro/01_BirthdayParadox/birthdayparadox.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">

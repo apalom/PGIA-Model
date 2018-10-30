@@ -7,7 +7,7 @@ let networkSVG = d3.select('#network-Div')
     .attr('width', width)
     .attr('height', height);
 
-let data = readData();
+readData();
 
 
 /**
@@ -16,13 +16,11 @@ let data = readData();
 async function readData() {
 
     try{
-        const data = await d3.csv('case12_branch.csv');
+        const data = await d3.csv('case12_bus.csv');
 
         console.log("Datafile: ", data);
 
         update(data)
-
-        return data;
 
     } catch (error) {
         alert('Could not load the dataset!');
@@ -30,32 +28,54 @@ async function readData() {
 }
 
 function update(data) {
-    //console.log('Line 0 tbus: ', data[0].tbus);
+    console.log('Line 0 tbus: ', data[0].tbus);
 
-    // Set up the scales
+    // Set up linear SVG scales
     let xScale = d3.scaleLinear()
-        .domain([0, 6])
-        .range([0, width]);
+        .domain([1, 4])
+        .range([0.1*width, 0.9*width]);
     let yScale = d3.scaleLinear()
-        .domain([0, 3])
-        .range([0, height]);
+        .domain([1, 3])
+        .range([0.1*height, 0.9*height]);
 
+    // Setup ColorScale
+    let colorScale = d3.scaleLinear()
+        .domain([0, 300])
+        .range(['white', 'red']);
 
-    // Data to be bound is the output of aLineGenerator
-    let branchGen = d3.line()
-        .x((d) => xScale(d.fbus))
-        .y((d) => yScale(d.tbus));
+    let branches = d3.select('#networkSVG')   // SELECT
 
-    let branchPathData = branchGen(data);
+    let selectBranches = branches             // UPDATE
+        .selectAll('line').data(data);
 
-    let selectBranch = d3.select('#networkSVG')
-        .append('path');
+    let drawBranches = selectBranches         // ENTER
+        .enter().append('line');
 
     //Update properties of path according to the bound data
-    selectBranch
-        .attr('d', branchPathData)
-        .attr('stroke', 'black')
-        .attr('stroke-width', 2);
+    drawBranches
+        .attr('x1', (d) => xScale(d.fromX))
+        .attr('y1', (d) => yScale(d.fromY))
+        .attr('x2', (d) => xScale(d.toX))
+        .attr('y2', (d) => yScale(d.toY))
+        .attr('id', (d,i) => 'line' + (i+1))
+        .attr('stroke', (d) => colorScale(d.amps));
+
+    let labelBranches = selectBranches
+        .enter().append('text');
+
+    labelBranches
+        .text((d) => 'Line '+ d.line)
+        .attr('x', (d) => 0.5*(xScale(d.fromX) + xScale(d.toX))+5)
+        .attr('y', (d) => 0.5*(yScale(d.fromY) + yScale(d.toY))-10);
+
+    let drawBuses = selectBranches
+        .enter().append('rect');
+
+    drawBuses
+        .attr('x', (d) => xScale(d.toX)-7.5)
+        .attr('y', (d) => yScale(d.toY)-7.5)
+        .attr('height', 15)
+        .attr('width', 15);
 
 
 }
