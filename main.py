@@ -16,9 +16,9 @@ from itertools import permutations
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-from funcLoadData import *
-[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
-dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+#from funcLoadData import *
+#[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
+#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 
 #---- Define Parameters ----#
@@ -114,6 +114,10 @@ for trial in range(maxTrials):
         day_Slack_kW_kVAR[hr,1] = sum(sum(loadHome_kVAR + loadEV_kVAR))
         day_P_flows[hr,:] = P_flows;
         day_Amp_flows[hr,:] = Amp_flows;        
+        
+    # Plot Heat Maps
+    from heatmap1 import *
+    [] = heatmap1(day_Amp_flows)
     
     dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
     
