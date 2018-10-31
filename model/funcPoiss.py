@@ -33,12 +33,13 @@ def funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes, numHomes, numBuses):
         
     elif (numConnected == maxEV):
         EVatHome = np.ones(maxEV)
-    
+   
     i = 0
     for el in EVstoHomes:        
         samplePoiss_kW[0][el] = EVatHome[i] * chgrRate
         i += 1
           
+    #print('EVatHome' + str(EVatHome));
     # Note Homes 1 & 2 are on bus 9, H3-4 on b5, H5-6 b7
     # H7-8 on b8, H9-10 on b4, H11-12 on b6    
     

@@ -77,5 +77,4 @@ function update(data) {
         .attr('height', 15)
         .attr('width', 15);
 
-
 }

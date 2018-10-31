@@ -3,6 +3,9 @@
 Created on Wed Sep 19 19:53:21 2018
 
 @author: Alex
+
+Filter home load and solar generation data to 
+only the user-defined peak-day.
 """
 
 def funcPeakDay(day, dfHome, dfSolar):

@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 import timeit
 from itertools import permutations 
+import csv
 
 # start timer 
 timeMain = timeit.default_timer()
@@ -24,13 +25,13 @@ timeMain = timeit.default_timer()
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 10
+maxTrials = 1000
 XFMR = 50; # Transformer rating (kVA)
 #secLength = 100 # Meters = 328 ft
 secLimit = 80 # Amps for Overload 
-chgrRate = 19.2; # Average charger power rating (kW)
-maxEV = 6;
-maxPV = 3;
+chgrRate = 12.9; # Average charger power rating (kW)
+maxEV = 4;
+maxPV = 0;
 numHomes = 12;
 
 # Calculate system values
@@ -53,7 +54,9 @@ outputData = {'L1': np.zeros((maxTrials)), 'L2': np.zeros((maxTrials)),
               'L3': np.zeros((maxTrials)), 'L4': np.zeros((maxTrials)), 
               'L5': np.zeros((maxTrials)), 'L6': np.zeros((maxTrials)),
               'L7': np.zeros((maxTrials)), 'L8': np.zeros((maxTrials))}
-dfOutput = pd.DataFrame(data=outputData);
+dfOverloads = pd.DataFrame(data=outputData);
+dfAvgAmps = pd.DataFrame(data=outputData);
+day_Amp_Flow_Prev = np.zeros((24,8));
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
@@ -61,9 +64,21 @@ from funcPeakDay import *
 
 for trial in range(maxTrials):
 
+    ## -- case A -- ##
+    # EVs Only At End of Lines [1, 6, 7, 12]
+    EVstoHomes = [0, 5, 6, 11];
+    PVtoHomes = np.random.permutation(numHomes)[0:maxPV];
+    
+    ## -- case B -- ##
+    # EVs + PVs At End of Lines
+    #EVstoHomes = [1, 6, 7, 12]
+    #PVtoHomes = [1, 6, 7, 12];
+    
+    ## -- case C -- ##
     # Randomly assign EV and PV to buses
-    EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
-    PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
+    #EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
+    
     
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))
@@ -72,6 +87,7 @@ for trial in range(maxTrials):
     day_EV_kW = np.zeros((24,numBuses))
     day_PV_kW = np.zeros((24,numBuses))
     day_Slack_kW_kVAR = np.zeros((24,2))
+    
     
     for hr in range(24):
         #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
@@ -116,13 +132,32 @@ for trial in range(maxTrials):
         day_Amp_flows[hr,:] = Amp_flows;        
         
     # Plot Heat Maps
-    from heatmap1 import *
-    [] = heatmap1(day_Amp_flows)
+    #from heatmap1 import *
+    #[] = heatmap1(day_Amp_flows)
     
     dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
+    dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
     
-    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---]')
+    day_Amp_Flow_Prev = dfAvgAmps;
+    
+    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---] \n')    
 
+#    
+#    #Output Data
+#    fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\dayAmps_' + str(trial) + '.csv'
+#    #outputFile = open(fileName, 'w')  
+#    with open(fileName, 'w') as outputFile:  
+#       writer = csv.writer(outputFile)
+#       writer.writerows(day_Amp_flows)
+#
+
+dfAvgAmps = dfAvgAmps/(trial+1)
+
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\dayAvgAmps_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(day_Amp_flows)
 
 # timeit statement
 elapsedMain = timeit.default_timer() - timeMain
