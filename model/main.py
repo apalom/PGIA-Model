@@ -55,7 +55,9 @@ outputData = {'L1': np.zeros((maxTrials)), 'L2': np.zeros((maxTrials)),
               'L5': np.zeros((maxTrials)), 'L6': np.zeros((maxTrials)),
               'L7': np.zeros((maxTrials)), 'L8': np.zeros((maxTrials))}
 dfOverloads = pd.DataFrame(data=outputData);
-dfAvgAmps = pd.DataFrame(data=outputData);
+
+dfOverloads = np.zeros((maxTrials,8));
+dfAvgAmps = np.zeros((24,8));
 day_Amp_Flow_Prev = np.zeros((24,8));
 
 # Filter Home Load Data for Single Day
@@ -135,8 +137,9 @@ for trial in range(maxTrials):
     #from heatmap1 import *
     #[] = heatmap1(day_Amp_flows)
     
-    dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
+    #dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
     dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
+    dfOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int));    
     
     day_Amp_Flow_Prev = dfAvgAmps;
     
@@ -158,6 +161,12 @@ fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\dayAvgAmps_' +
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(day_Amp_flows)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\overloads_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(dfOverloads)
 
 # timeit statement
 elapsedMain = timeit.default_timer() - timeMain
