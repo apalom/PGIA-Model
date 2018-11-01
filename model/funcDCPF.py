@@ -56,6 +56,7 @@ def funcDCPF(dfSys):
             print('  IndexError')
             
     P_net = (P_gen - P_load)/base;
+    P_bus = P_net * base;
     # -----
     
     # Remove Slack Bus Row
@@ -95,4 +96,4 @@ def funcDCPF(dfSys):
     elapsedDCPF = timeit.default_timer() - timeDCPF
     #print('funcDCPF time: {0:.4f} sec'.format(elapsedDCPF))
 
-    return (B, B0, P_net, P_net0, theta, P_flows, Amp_flows)
+    return (B, B0, P_net, P_net0, P_bus, theta, P_flows, Amp_flows)

@@ -25,8 +25,9 @@ timeMain = timeit.default_timer()
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1000
+maxTrials = 1000;
 XFMR = 50; # Transformer rating (kVA)
+XFMRlimit= 1.3 * XFMR;
 #secLength = 100 # Meters = 328 ft
 secLimit = 80 # Amps for Overload 
 chgrRate = 12.9; # Average charger power rating (kW)
@@ -39,26 +40,26 @@ numBuses = len(dfSys['Bus'])
 numLines = len(dfSys['Branch'])
 
 '''
-# Create Input DataFrame
-inputData = {'maxTrials': [maxTrials], 
-             'XFMR': [XFMR], 
-             'secLimit': [secLimit], 
-             'chgrRate': [chgrRate], 
-             'maxEV': [maxEV], 
-             'maxPV': [maxPV], 
-             'numHomes': [numHomes]}
-dfInput = pd.DataFrame(data=inputData);
-'''
+#Load Per Secondary
+    UGTX_4/0AWG_SAL_NTRXC (Trade Name: Sweetbrier)
+    Allowable Ampacity-Direct Burial: 350 Amps (600V)
+    AC Resistance @ 75C: 0.101 / 1000ft
+    AC Resistance @ 90C: 0.105 / 1000ft
+    Voltage = 240V
 
 outputData = {'L1': np.zeros((maxTrials)), 'L2': np.zeros((maxTrials)),
               'L3': np.zeros((maxTrials)), 'L4': np.zeros((maxTrials)), 
               'L5': np.zeros((maxTrials)), 'L6': np.zeros((maxTrials)),
               'L7': np.zeros((maxTrials)), 'L8': np.zeros((maxTrials))}
 dfOverloads = pd.DataFrame(data=outputData);
+'''
 
-dfOverloads = np.zeros((maxTrials,8));
-dfAvgAmps = np.zeros((24,8));
-day_Amp_Flow_Prev = np.zeros((24,8));
+dfLineOverloads = np.zeros((maxTrials,numLines));
+dfXFMRoverloads = np.zeros((maxTrials,1));
+dfPxfmr = np.zeros((24,maxTrials));
+dfAvgAmps = np.zeros((24,numLines));
+day_Amp_Flow_Prev = np.zeros((24,numLines));
+day_P_bus_Prev = np.zeros((24,numBuses));
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
@@ -85,6 +86,7 @@ for trial in range(maxTrials):
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))
     day_Amp_flows = np.zeros((24,numLines))
+    day_P_bus = np.zeros((24,9))
     day_Home_kW = np.zeros((24,numBuses))
     day_EV_kW = np.zeros((24,numBuses))
     day_PV_kW = np.zeros((24,numBuses))
@@ -125,13 +127,15 @@ for trial in range(maxTrials):
                 
         # DC Powerflow Function Call 
         from funcDCPF import *
-        [B, B0, P_net, P_net0, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
+        [B, B0, P_net, P_net0, P_bus, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
         
         # Record daily energy import
         day_Slack_kW_kVAR[hr,0] = sum(sum(loadHome_kW + loadEV_kW))
         day_Slack_kW_kVAR[hr,1] = sum(sum(loadHome_kVAR + loadEV_kVAR))
         day_P_flows[hr,:] = P_flows;
-        day_Amp_flows[hr,:] = Amp_flows;        
+        day_Amp_flows[hr,:] = Amp_flows;    
+        day_P_bus[hr,:] = P_bus;  
+        day_P_xfmr = day_P_bus[:,0];
         
     # Plot Heat Maps
     #from heatmap1 import *
@@ -139,7 +143,10 @@ for trial in range(maxTrials):
     
     #dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
     dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
-    dfOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int));    
+    dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
+    dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
+    dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
+    dfPxfmr[:,trial] = day_P_xfmr;
     
     day_Amp_Flow_Prev = dfAvgAmps;
     
@@ -154,7 +161,8 @@ for trial in range(maxTrials):
 #       writer.writerows(day_Amp_flows)
 #
 
-dfAvgAmps = dfAvgAmps/(trial+1)
+dfAvgAmps = dfAvgAmps/(trial+1);
+dfAvgPbus = dfAvgPbus/(trial+1);
 
 fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\dayAvgAmps_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
@@ -162,11 +170,30 @@ with open(fileName, 'w') as outputFile:
    writer = csv.writer(outputFile)
    writer.writerows(day_Amp_flows)
    
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\overloads_' + str(trial) + '.csv'
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\lineOverloads_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
-   writer.writerows(dfOverloads)
+   writer.writerows(dfLineOverloads)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\avgPbus_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(dfAvgPbus)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\xfmrGen_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(dfPxfmr)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\xfmrOverloads_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(dfXFMRoverloads)
+
 
 # timeit statement
 elapsedMain = timeit.default_timer() - timeMain
