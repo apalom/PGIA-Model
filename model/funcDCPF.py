@@ -16,7 +16,10 @@ def funcDCPF(dfSys):
     timeDCPF = timeit.default_timer()
     
     ##---- Initialize Values ----##
-    base = 100;
+    vBase = 240; # V
+    sBase = 100000; # VA
+    iBase = sBase/vBase; #A
+    zBase = vBase/iBase; 
     numBus = len(dfSys['Bus'])
     numLines = len(dfSys['Branch'])
     
@@ -55,8 +58,8 @@ def funcDCPF(dfSys):
         except IndexError:
             print('  IndexError')
             
-    P_net = (P_gen - P_load)/base;
-    P_bus = P_net * base;
+    P_net = (P_gen - P_load)/sBase;
+    P_bus = P_net * sBase;
     # -----
     
     # Remove Slack Bus Row
@@ -69,6 +72,7 @@ def funcDCPF(dfSys):
     # Calculate P Flows
     numLine = len(dfSys['Branch']);
     P_flows = np.zeros(numLine);
+    pu_P_flows = np.zeros(numLine);
     
     for line in range(numLine):
         # Get from bus angle
@@ -84,9 +88,10 @@ def funcDCPF(dfSys):
         else:
             t_theta = theta[t_bus-2];
         
-        P_flows[line] = base*(f_theta - t_theta)/dfSys['Branch'].x[line];
+        P_flows[line] = sBase*(f_theta - t_theta)/dfSys['Branch'].x[line];
+        pu_P_flows[line] = (f_theta - t_theta)/dfSys['Branch'].x[line];
     
-    Amp_flows = np.sqrt(abs(P_flows)/dfSys['Branch'].x);
+    Amp_flows = iBase*np.sqrt(abs(pu_P_flows)/(dfSys['Branch'].x));
     
     # Compare Flows with MATPOWER Results
     #matP_flows = np.array([-38.46, -97.09, 133.25, 104.75])

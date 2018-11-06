@@ -1,0 +1,6 @@
+ [--- Trial: 999 CASE: 4EVs 12.9kW chgr 4PV ---] 
+
+Per-Unit Reactance
+Sweetbriar has resistance of 0.101 / 1000ft. Assume 250ft per cable = 0.02525. 
+zBase = 0.576
+pu_X = 0.02525/zBase = 0.0438

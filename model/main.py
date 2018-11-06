@@ -17,22 +17,22 @@ import csv
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-#from funcLoadData import *
-#[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
-#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+from funcLoadData import *
+[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
+dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1000;
+maxTrials = 3;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 #secLength = 100 # Meters = 328 ft
-secLimit = 80 # Amps for Overload 
+secLimit = 80 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
 maxEV = 4;
-maxPV = 0;
+maxPV = 4;
 numHomes = 12;
 
 # Calculate system values
@@ -42,10 +42,19 @@ numLines = len(dfSys['Branch'])
 '''
 #Load Per Secondary
     UGTX_4/0AWG_SAL_NTRXC (Trade Name: Sweetbrier)
-    Allowable Ampacity-Direct Burial: 350 Amps (600V)
+    Allowable Ampacity-Direct Burial: 315 Amps (600V)
+    Allowable Ampacity-In Duct: 240 Amps (600V)
     AC Resistance @ 75C: 0.101 / 1000ft
     AC Resistance @ 90C: 0.105 / 1000ft
     Voltage = 240V
+    
+    Per-Unit Reactance
+    Sweetbriar has resistance of 0.101 / 1000ft. 
+        Assume 250ft per cable = 0.02525 
+        Assume 125ft per cable = 0.012625
+    zBase = 0.576
+    pu_X = 0.02525/zBase = 0.0438
+    pu_X = 0.012625/zBase = 0.0219
 
 outputData = {'L1': np.zeros((maxTrials)), 'L2': np.zeros((maxTrials)),
               'L3': np.zeros((maxTrials)), 'L4': np.zeros((maxTrials)), 
@@ -74,8 +83,8 @@ for trial in range(maxTrials):
     
     ## -- case B -- ##
     # EVs + PVs At End of Lines
-    #EVstoHomes = [1, 6, 7, 12]
-    #PVtoHomes = [1, 6, 7, 12];
+    #EVstoHomes = [0, 5, 6, 11];
+    #PVtoHomes = [0, 5, 6, 11];
     
     ## -- case C -- ##
     # Randomly assign EV and PV to buses
@@ -136,12 +145,14 @@ for trial in range(maxTrials):
         day_Amp_flows[hr,:] = Amp_flows;    
         day_P_bus[hr,:] = P_bus;  
         day_P_xfmr = day_P_bus[:,0];
+    
         
     # Plot Heat Maps
     #from heatmap1 import *
     #[] = heatmap1(day_Amp_flows)
     
     #dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
+    maxXFMR = np.max(day_P_xfmr);
     dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
     dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
     dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
