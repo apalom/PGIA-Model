@@ -21,7 +21,7 @@ stdDev = np.std(maxXFMRperTrial)
 #https://www.valuationresearch.com/wp-content/uploads/2017/11/SpecialReport_MonteCarloSimulationTrials.pdf
 trialsNeeded = ((zScore*(stdDev/prscn)))**2
 
-print('Trials needed to achive 95% confidence: ', trialsNeeded)
+print('Trials needed to achieve 95% confidence: ', trialsNeeded)
 
 #%% Calculate Running Average
 

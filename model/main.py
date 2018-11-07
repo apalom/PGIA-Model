@@ -25,7 +25,7 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 3;
+maxTrials = 1200;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 #secLength = 100 # Meters = 328 ft
@@ -78,8 +78,8 @@ for trial in range(maxTrials):
 
     ## -- case A -- ##
     # EVs Only At End of Lines [1, 6, 7, 12]
-    EVstoHomes = [0, 5, 6, 11];
-    PVtoHomes = np.random.permutation(numHomes)[0:maxPV];
+    #EVstoHomes = [0, 5, 6, 11];
+    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV];
     
     ## -- case B -- ##
     # EVs + PVs At End of Lines
@@ -88,8 +88,8 @@ for trial in range(maxTrials):
     
     ## -- case C -- ##
     # Randomly assign EV and PV to buses
-    #EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
-    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
+    EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+    PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
     
     
     # Initialize Day Calculations
