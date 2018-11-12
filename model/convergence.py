@@ -22,6 +22,7 @@ stdDev = np.std(maxXFMRperTrial)
 trialsNeeded = ((zScore*(stdDev/prscn)))**2
 
 print('Trials needed to achieve 95% confidence: ', trialsNeeded)
+print('\n')
 
 #%% Calculate Running Average
 
@@ -39,16 +40,18 @@ for i in range(len(maxXFMRperTrial)):
     
 #%% Plot Converge
 
-upper_bound = np.array([currentAvg+prscn for i in range(len(maxXFMRperTrial))])
-lower_bound = np.array([currentAvg-prscn for i in range(len(maxXFMRperTrial))])
+num = len(maxXFMRperTrial)
 
-ser = np.linspace(0,1000,1000)    
+upper_bound = np.array([currentAvg+prscn for i in range(num)])
+lower_bound = np.array([currentAvg-prscn for i in range(num)])
+
+ser = np.linspace(0,num-1,num)    
 #runningAvg = runningAvg[1:1000]
 plt.plot(ser, runningAvg, 'k')
 plt.plot(ser, maxXFMRperTrial, 'b.', markersize = 1.5)
 plt.plot(ser, upper_bound, '--', linewidth=1, color='grey')
 plt.plot(ser, lower_bound, '--', linewidth=1, color='grey')
-plt.ylabel('Running Average (kW)')
+plt.ylabel('Empirical Average (kW)')
 plt.ylim((82., 86.5)) 
 plt.xlabel('Trials')
 plt.title('Maximum Transformer Load Per Trial')
