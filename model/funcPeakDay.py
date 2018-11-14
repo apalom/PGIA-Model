@@ -8,7 +8,7 @@ Filter home load and solar generation data to
 only the user-defined peak-day.
 """
 
-def funcPeakDay(day, dfHome, dfSolar):
+def funcPeakDay(day, dfHome, dfSolar, dfAmbient):
     
     #import library
     from datetime import datetime
@@ -32,6 +32,16 @@ def funcPeakDay(day, dfHome, dfSolar):
         
     dfSolarDay = dfSolarDay.reset_index(drop=True)
     dfSolarDay = dfSolarDay.drop(columns=['Year', 'Month', 'Day'])
+        
+    try:
+        dfAmbient['DATE'] = dfAmbient['DATE'].apply(lambda x: datetime.datetime.strftime(x, '%Y-%m-%d'));
+        dfAmbientDay = dfAmbient.loc[dfAmbient['DATE'] == day]
+    except AttributeError:
+        print(' AttributeError')
+        dfAmbientDay = dfAmbient.loc[dfAmbient['DATE'] == day]
     
-    return (day, dfHomeDay, dfSolarDay)
+    dfAmbientDay = dfAmbientDay.reset_index(drop=True)
+    dfAmbientDay = dfAmbientDay.drop(columns=['DATE', 'Hour'])
+    
+    return (day, dfHomeDay, dfSolarDay, dfAmbientDay)
 

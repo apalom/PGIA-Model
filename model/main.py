@@ -17,22 +17,21 @@ import csv
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-from funcLoadData import *
-[dfSys, dfHome, dfEV, dfSolar] = funcLoadData()
-dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+#from funcLoadData import *
+#[dfSys, dfHome, dfEV, dfSolar, dfAmbient] = funcLoadData()
+#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1200;
+maxTrials = 300;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
-#secLength = 100 # Meters = 328 ft
-secLimit = 80 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
+secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
-maxEV = 4;
-maxPV = 4;
+maxEV = 0;
+maxPV = 0;
 numHomes = 12;
 
 # Calculate system values
@@ -66,13 +65,20 @@ dfOverloads = pd.DataFrame(data=outputData);
 dfLineOverloads = np.zeros((maxTrials,numLines));
 dfXFMRoverloads = np.zeros((maxTrials,1));
 dfPxfmr = np.zeros((24,maxTrials));
-dfAvgAmps = np.zeros((24,numLines));
+
 day_Amp_Flow_Prev = np.zeros((24,numLines));
 day_P_bus_Prev = np.zeros((24,numBuses));
 
+outPxfmr = np.zeros((24,maxTrials));
+outL1amp = np.zeros((24,maxTrials));
+outL3amp = np.zeros((24,maxTrials));
+outL7amp = np.zeros((24,maxTrials));
+outFaa = np.zeros((24,maxTrials));
+outAvgAmps = np.zeros((24,numLines));
+
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
-[day, dfHomeDay, dfSolarDay] = funcPeakDay(day, dfHome, dfSolar)
+[day, dfHomeDay, dfSolarDay, dfAmbientDay] = funcPeakDay(day, dfHome, dfSolar, dfAmbient)
 
 for trial in range(maxTrials):
 
@@ -94,6 +100,11 @@ for trial in range(maxTrials):
     
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))
+    day_L1amp = np.zeros((24,1))
+    day_L3amp = np.zeros((24,1))
+    day_L7amp = np.zeros((24,1))
+    
+    
     day_Amp_flows = np.zeros((24,numLines))
     day_P_bus = np.zeros((24,9))
     day_Home_kW = np.zeros((24,numBuses))
@@ -137,14 +148,21 @@ for trial in range(maxTrials):
         # DC Powerflow Function Call 
         from funcDCPF import *
         [B, B0, P_net, P_net0, P_bus, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
-        
-        # Record daily energy import
+
+        # Record daily energy 
         day_Slack_kW_kVAR[hr,0] = sum(sum(loadHome_kW + loadEV_kW))
         day_Slack_kW_kVAR[hr,1] = sum(sum(loadHome_kVAR + loadEV_kVAR))
         day_P_flows[hr,:] = P_flows;
-        day_Amp_flows[hr,:] = Amp_flows;    
+        day_L1amp[hr,:] = Amp_flows[0];    
+        day_L3amp[hr,:] = Amp_flows[2];    
+        day_L7amp[hr,:] = Amp_flows[6];    
+        
         day_P_bus[hr,:] = P_bus;  
         day_P_xfmr = day_P_bus[:,0];
+                        
+    # XFMR Aging Function Call 
+    from funcAging import *
+    day_Faa = funcAging(dfAmbientDay, day_P_xfmr)
     
         
     # Plot Heat Maps
@@ -154,12 +172,16 @@ for trial in range(maxTrials):
     #dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
     maxXFMR = np.max(day_P_xfmr);
     dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
-    dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
-    dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
-    dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
-    dfPxfmr[:,trial] = day_P_xfmr;
+    #dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
+    #dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
+    #dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
+    outPxfmr[:,trial] = day_P_xfmr;
+    outL1amp[:,trial] = day_L1amp[:,0];
+    outL3amp[:,trial] = day_L3amp[:,0];
+    outL7amp[:,trial] = day_L7amp[:,0];
+    outFaa[:,trial] = day_Faa[:,0];
     
-    day_Amp_Flow_Prev = dfAvgAmps;
+    #day_Amp_Flow_Prev = dfAvgAmps;
     
     print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---] \n')    
 
@@ -172,39 +194,44 @@ for trial in range(maxTrials):
 #       writer.writerows(day_Amp_flows)
 #
 
-dfAvgAmps = dfAvgAmps/(trial+1);
-dfAvgPbus = dfAvgPbus/(trial+1);
+outAvgAmps = dfAvgAmps/(trial+1);
+#dfAvgPbus = dfAvgPbus/(trial+1);
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outPxfmr_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(outPxfmr)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outL1amp_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(outL1amp)
 
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\dayAvgAmps_' + str(trial) + '.csv'
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outL3amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
-   writer.writerows(day_Amp_flows)
+   writer.writerows(outL3amp)
    
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\lineOverloads_' + str(trial) + '.csv'
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outL7amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
-   writer.writerows(dfLineOverloads)
-   
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\avgPbus_' + str(trial) + '.csv'
-#outputFile = open(fileName, 'w')  
-with open(fileName, 'w') as outputFile:  
-   writer = csv.writer(outputFile)
-   writer.writerows(dfAvgPbus)
-   
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\xfmrGen_' + str(trial) + '.csv'
-#outputFile = open(fileName, 'w')  
-with open(fileName, 'w') as outputFile:  
-   writer = csv.writer(outputFile)
-   writer.writerows(dfPxfmr)
-   
-fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\xfmrOverloads_' + str(trial) + '.csv'
-#outputFile = open(fileName, 'w')  
-with open(fileName, 'w') as outputFile:  
-   writer = csv.writer(outputFile)
-   writer.writerows(dfXFMRoverloads)
+   writer.writerows(outL7amp)   
 
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outFaa_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(outFaa)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outAvgAmps_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(dfAvgAmps)
 
 # timeit statement
 elapsedMain = timeit.default_timer() - timeMain

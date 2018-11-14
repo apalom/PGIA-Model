@@ -11,7 +11,7 @@ import math
 
 xfmrRating = 50
 
-#dfTemp = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\july1_temp.xlsx');
+dfTemp = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\july1_temp.xlsx');
 thetaA = dfTemp.TEMPC;
 L = day_P_xfmr;
 
@@ -48,9 +48,6 @@ for t in range(1,len(L)):
     dThetaTOu[t] = dThetaTOr*((((K**2)*R)+1)/(R+1))**n
     
     tauTO[t] = tauTOr * ((dThetaTOu[t]/dThetaTOr) - (dThetaTO[t-1]/dThetaTOr)) / ((dThetaTOu[t]/dThetaTOr)**(1/n) - (dThetaTO[t-1]/dThetaTOr)**(1/n))
-
-    num[t] = ((dThetaTOu[t]/dThetaTOr) - (dThetaTO[t-1]/dThetaTOr));
-    den[t] = ((dThetaTOu[t]/dThetaTOr)**(1/n) - (dThetaTO[t-1]/dThetaTOr)**(1/n));
 
     dThetaTO[t] = (dThetaTOu[t] - dThetaTO[t-1])*(1 - math.exp(-1/tauTO[t])) + dThetaTO[t-1]
 

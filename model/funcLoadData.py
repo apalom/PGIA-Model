@@ -47,4 +47,13 @@ def funcLoadData():
     elapsedLoadSolar = timeit.default_timer() - timeLoadSolar
     print('Load Solar time: {0:.4f} sec'.format(elapsedLoadSolar))
 
-    return (dfSys, dfHome, dfEV, dfSolar)
+    #---- Import Ambient Temp Data ----#
+    timeLoadAmbient= timeit.default_timer()
+
+    dfAmbient0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NOAA_SLC_2016_season.xlsx');
+    dfAmbient = dfAmbient0;
+    
+    elapsedLoadAmbient = timeit.default_timer() - timeLoadAmbient
+    print('Load Ambient Temp time: {0:.4f} sec'.format(elapsedLoadAmbient))
+
+    return (dfSys, dfHome, dfEV, dfSolar, dfAmbient)
