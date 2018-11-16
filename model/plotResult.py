@@ -14,7 +14,7 @@ from os import path
 
 #%% Plot System Data
 
-path1 = 'data\\Scenario1\\'
+path1 = 'data\\Scenario4\\'
 file = '\\outPxfmr_299.csv'
 
 # Plot F_aa Comparison
@@ -36,7 +36,7 @@ hr = np.arange(0,24,1)
 plot1 = data.plot()
                               
 plt.ylabel('Average Loading (kW)')
-#plt.ylim(0, 2.25)
+plt.ylim(0, 80)
 plt.grid(axis='y', alpha=0.75)
 plt.xlabel('Hour (hr)')
 plt.xlim(0, 24)
@@ -47,7 +47,7 @@ plt.show()
 
 #%% Plot Line Currents
 
-path1 = 'data\\Scenario1\\Case_Base\\'
+path1 = 'data\\Scenario4\\Case_Base\\'
 
 # Plot F_aa Comparison
 ampsL1 = pd.read_csv(path1 + 'outL1amp_299.csv', header=None)
@@ -69,6 +69,6 @@ plt.grid(axis='y', alpha=0.75)
 plt.xlabel('Hour (hr)')
 plt.xlim(0, 24)
 plt.xticks(np.arange(0,24,2))
-plt.title('Line Loading (4EV - A1)')
+plt.title('Line Loading (4EV)')
 plt.legend(loc=(0.04,0.65))
 plt.show()
