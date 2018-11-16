@@ -28,6 +28,15 @@ caseC = pd.read_csv(path1 + 'CaseC1' + file, header=None)
 data = pd.DataFrame({'Base': base.quantile(0.50, axis=1), 'CaseA': caseA.quantile(0.50, axis=1),
                    'CaseB': caseB.quantile(0.50, axis=1), 'CaseC': caseC.quantile(0.50, axis=1)}) 
 
+
+#%%
+
+font = {'family' : 'Times New Roman',
+        'size'   : 18}
+plt.rc('font', **font)
+                            
+plt.rcParams["figure.figsize"] = [8,6]
+
 #%%
 
 hr = np.arange(0,24,1)

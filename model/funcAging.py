@@ -54,7 +54,8 @@ def funcAging(dfAmbientDay, day_P_xfmr):
         Faa[t] = math.exp(((15000/383) - (15000/(thetaH[t] + 273))))
     
     day_Faa = Faa;
+    day_thetaH = thetaH;
     
-    return(day_Faa)
+    return(day_Faa, day_thetaH)
     
         

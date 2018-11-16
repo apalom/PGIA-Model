@@ -25,7 +25,7 @@ timeMain = timeit.default_timer()
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 300;
+maxTrials = 3;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
@@ -74,6 +74,7 @@ outL1amp = np.zeros((24,maxTrials));
 outL3amp = np.zeros((24,maxTrials));
 outL7amp = np.zeros((24,maxTrials));
 outFaa = np.zeros((24,maxTrials));
+outthetaH = np.zeros((24,maxTrials));
 outAvgAmps = np.zeros((24,numLines));
 
 # Filter Home Load Data for Single Day
@@ -89,8 +90,8 @@ for trial in range(maxTrials):
     
     ## -- case A -- ##
     # EVs Only At End of Lines [1, 6, 7, 12]
-    #EVstoHomes = [0, 5, 6, 11];
-    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV];
+    EVstoHomes = [0, 5, 6, 11];
+    PVtoHomes = np.random.permutation(numHomes)[0:maxPV];
     
     ## -- case B -- ##
     # EVs + PVs At End of Lines
@@ -161,13 +162,14 @@ for trial in range(maxTrials):
         day_L1amp[hr,:] = Amp_flows[0];    
         day_L3amp[hr,:] = Amp_flows[2];    
         day_L7amp[hr,:] = Amp_flows[6];    
-        
+        day_Amp_flows[hr,:] = Amp_flows;
+                
         day_P_bus[hr,:] = P_bus;  
         day_P_xfmr = day_P_bus[:,0];
                         
     # XFMR Aging Function Call 
     from funcAging import *
-    day_Faa = funcAging(dfAmbientDay, day_P_xfmr)
+    [day_Faa, day_thetaH] = funcAging(dfAmbientDay, day_P_xfmr)
     
         
     # Plot Heat Maps
@@ -177,7 +179,7 @@ for trial in range(maxTrials):
     #dfOutput.iloc[trial][:] = sum((day_Amp_flows > secLimit).astype(int))
     maxXFMR = np.max(day_P_xfmr);
     dfAvgAmps = (day_Amp_Flow_Prev + day_Amp_flows);  
-    #dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
+    dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
     #dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
     #dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
     outPxfmr[:,trial] = day_P_xfmr;
@@ -185,8 +187,10 @@ for trial in range(maxTrials):
     outL3amp[:,trial] = day_L3amp[:,0];
     outL7amp[:,trial] = day_L7amp[:,0];
     outFaa[:,trial] = day_Faa[:,0];
+    outthetaH[:,trial] = day_thetaH[:,0];
     
-    #day_Amp_Flow_Prev = dfAvgAmps;
+    day_Amp_Flow_Prev = dfAvgAmps;
+    day_P_bus_Prev = dfAvgPbus;
     
     print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---] \n')    
 
@@ -200,7 +204,7 @@ for trial in range(maxTrials):
 #
 
 outAvgAmps = dfAvgAmps/(trial+1);
-#dfAvgPbus = dfAvgPbus/(trial+1);
+outAvgPbus = dfAvgPbus/(trial+1);
    
 fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outPxfmr_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
@@ -236,7 +240,13 @@ fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outAvgAmps_' +
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
-   writer.writerows(dfAvgAmps)
+   writer.writerows(outAvgAmps)
+   
+fileName = r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\outAvgPbus_' + str(trial) + '.csv'
+#outputFile = open(fileName, 'w')  
+with open(fileName, 'w') as outputFile:  
+   writer = csv.writer(outputFile)
+   writer.writerows(outAvgPbus)
 
 # timeit statement
 elapsedMain = timeit.default_timer() - timeMain

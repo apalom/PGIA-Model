@@ -22,6 +22,14 @@ caseA = pd.read_csv(path1 + 'CaseA1' + file, header=None)
 
 #%%
 
+font = {'family' : 'Times New Roman',
+        'size'   : 18}
+plt.rc('font', **font)
+                            
+plt.rcParams["figure.figsize"] = [8,6]
+
+#%%
+
 # Create data
 #data = pd.DataFrame(CaseA)
 
