@@ -11,12 +11,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-dfPxfmr = pd.read_csv(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\CaseA\xfmrGen_1199.csv', header=None)
+data = pd.read_csv(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\model\data\CaseA\outPxfmr_299.csv', header=None)
                  
 #%%
 
-# Create random data
-data = pd.DataFrame(data=dfPxfmr)
+# Create data
+data = pd.DataFrame(data)
 
 hr = np.arange(0,24,1)
 

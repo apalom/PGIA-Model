@@ -30,8 +30,8 @@ XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
-maxEV = 0;
-maxPV = 0;
+maxEV = 4;
+maxPV = 4;
 numHomes = 12;
 
 # Calculate system values
@@ -82,6 +82,11 @@ from funcPeakDay import *
 
 for trial in range(maxTrials):
 
+    ## -- case Base -- ##
+    # Randomly assign EV and PV to buses
+    #EVstoHomes = np.random.permutation(numHomes)[0:0]
+    #PVtoHomes = np.random.permutation(numHomes)[0:0]
+    
     ## -- case A -- ##
     # EVs Only At End of Lines [1, 6, 7, 12]
     #EVstoHomes = [0, 5, 6, 11];
