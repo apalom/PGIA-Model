@@ -14,14 +14,14 @@ from os import path
 
 #%% Plot System Data
 
-path1 = 'data\\Scenario4\\'
+path1 = 'data\\Scenario8\\'
 file = '\\outFaa_299.csv'
 
 # Plot F_aa Comparison
 base = pd.read_csv(path1 + 'Case_Base' + file, header=None)
-caseA = pd.read_csv(path1 + 'CaseA1' + file, header=None)
-caseB = pd.read_csv(path1 + 'CaseB1' + file, header=None)
-caseC = pd.read_csv(path1 + 'CaseC1' + file, header=None)
+caseA = pd.read_csv(path1 + 'CaseA' + file, header=None)
+caseB = pd.read_csv(path1 + 'CaseB' + file, header=None)
+caseC = pd.read_csv(path1 + 'CaseC' + file, header=None)
 
 #%%
 

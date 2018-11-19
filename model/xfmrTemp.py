@@ -62,14 +62,3 @@ for t in range(1,len(L)):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
