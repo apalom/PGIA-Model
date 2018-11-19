@@ -15,7 +15,7 @@ from os import path
 #%% Plot System Data
 
 path1 = 'data\\Scenario4\\'
-file = '\\outPxfmr_299.csv'
+file = '\\outFaa_299.csv'
 
 # Plot F_aa Comparison
 base = pd.read_csv(path1 + 'Case_Base' + file, header=None)

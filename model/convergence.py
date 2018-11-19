@@ -6,6 +6,8 @@ Created on Tue Nov  6 12:24:05 2018
 """
 
 import numpy as np
+import pandas as pd
+from os import path
 
 # Precision level 
 prscn = 0.5 #kW
@@ -14,6 +16,8 @@ prscn = 0.5 #kW
 zScore = 1.96;
 
 # Data to test convergence
+dfPxfmr  = pd.read_csv('xfmrGen_1199.csv', header=None)
+
 maxXFMRperTrial = np.max(dfPxfmr, axis=0)
 stdDev = np.std(maxXFMRperTrial)
 
