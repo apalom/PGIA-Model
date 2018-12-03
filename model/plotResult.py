@@ -58,7 +58,7 @@ plt.show()
 
 path1 = 'data\\Scenario8\\Case_Base\\'
 
-test = np.zeros((maxTrials*24,1))
+#test = np.zeros((maxTrials*24,1))
 
 # Plot F_aa Comparison
 ampsL1 = pd.read_csv(path1 + 'outL1amp_299.csv', header=None)
@@ -66,14 +66,10 @@ ampsL3 = pd.read_csv(path1 + 'outL3amp_299.csv', header=None)
 ampsL7 = pd.read_csv(path1 + 'outL7amp_299.csv', header=None)
 
 
-path1 = 'data\\Scenario8\\'
-file = '\\outPxfmr_299.csv'
+#%%
 
-# Plot F_aa Comparison
-base = pd.read_csv(path1 + 'Case_Base' + file, header=None)
-caseA = pd.read_csv(path1 + 'CaseA' + file, header=None)
-caseB = pd.read_csv(path1 + 'CaseB' + file, header=None)
-caseC = pd.read_csv(path1 + 'CaseC' + file, header=None)
+ampsL1 = ampsL1.loc[ampsL1[:][0] > 0]
+
 
 #%%
 
@@ -92,3 +88,18 @@ plt.xticks(np.arange(0,24,2))
 plt.title('Line Loading (4EV)')
 plt.legend(loc=(0.04,0.65))
 plt.show()
+
+
+'''
+#%% Transformer
+
+path1 = 'data\\Scenario8\\'
+file = '\\outPxfmr_299.csv'
+
+# Plot F_aa Comparison
+base = pd.read_csv(path1 + 'Case_Base' + file, header=None)
+caseA = pd.read_csv(path1 + 'CaseA' + file, header=None)
+caseB = pd.read_csv(path1 + 'CaseB' + file, header=None)
+caseC = pd.read_csv(path1 + 'CaseC' + file, header=None)
+
+'''
