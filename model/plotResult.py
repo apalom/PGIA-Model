@@ -56,7 +56,7 @@ plt.show()
 
 #%% Plot Line Currents
 
-path1 = 'data\\Scenario8\\Case_Base\\'
+path1 = 'data\\Scenario8\\CaseA\\'
 
 #test = np.zeros((maxTrials*24,1))
 
@@ -69,28 +69,32 @@ ampsL7 = pd.read_csv(path1 + 'outL7amp_299.csv', header=None)
 #%%
 
 ampsL1 = ampsL1.loc[ampsL1[:][0] > 0]
-
+ampsL1 = ampsL1.reset_index()
+ampsL1 = ampsL1.drop(labels='index', axis=1)
 
 #%%
 
-data = pd.DataFrame({'L1': ampsL1.quantile(0.50, axis=1), 'L3': ampsL3.quantile(0.50, axis=1),
-                   'L7': ampsL7.quantile(0.50, axis=1)}) 
+data = pd.DataFrame({'L1 - Min': ampsL1.quantile(0.05, axis=1), 'L1 - Mean': ampsL1.quantile(0.50, axis=1), 'L1 - Max': ampsL1.quantile(0.95, axis=1), 
+                     'L3 - Min': ampsL3.quantile(0.05, axis=1), 'L3 - Mean': ampsL3.quantile(0.50, axis=1), 'L3 - Max': ampsL3.quantile(0.95, axis=1), 
+                     'L7 - Min': ampsL1.quantile(0.05, axis=1), 'L7 - Mean': ampsL7.quantile(0.50, axis=1), 'L7 - Max': ampsL7.quantile(0.95, axis=1)}) 
+
+#%%
 
 # And plot it        
 plot1 = data.plot()
                               
 plt.ylabel('Average Line Current (A)')
-plt.ylim(0, 75)
+#plt.ylim(0, 75)
 plt.grid(axis='y', alpha=0.75)
 plt.xlabel('Hour (hr)')
 plt.xlim(0, 24)
 plt.xticks(np.arange(0,24,2))
-plt.title('Line Loading (4EV)')
-plt.legend(loc=(0.04,0.65))
+plt.title('Line Loading (8EV)')
+plt.legend(loc=(1.01,0.25))
 plt.show()
 
 
-'''
+
 #%% Transformer
 
 path1 = 'data\\Scenario8\\'
@@ -101,5 +105,3 @@ base = pd.read_csv(path1 + 'Case_Base' + file, header=None)
 caseA = pd.read_csv(path1 + 'CaseA' + file, header=None)
 caseB = pd.read_csv(path1 + 'CaseB' + file, header=None)
 caseC = pd.read_csv(path1 + 'CaseC' + file, header=None)
-
-'''
