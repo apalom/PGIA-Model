@@ -22,14 +22,14 @@ async function readData() {
         console.log("Bus Config: ", busData);
         console.log("Line Loading: ", ampData);
 
-        update(busData)
+        updateData(busData)
 
     } catch (error) {
         alert('Could not load the dataset!');
     }
 }
 
-function update(busData) {
+function updateData(busData) {
     //console.log('Line 0 tbus: ', busData[0].tbus);
 
     // Set up linear SVG scales
@@ -80,3 +80,4 @@ function update(busData) {
         .attr('width', 15);
 
 }
+

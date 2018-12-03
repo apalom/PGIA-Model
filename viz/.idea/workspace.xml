@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7226211-dcf7-450e-aedc-26a52a30c5a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../model/plotResult.py" beforeDir="false" afterPath="$PROJECT_DIR$/../model/plotResult.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/case12_bus.csv" beforeDir="false" afterPath="$PROJECT_DIR$/case12_bus.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,7 +28,7 @@
         <counts>
           <entry key="css" value="3" />
           <entry key="html" value="5" />
-          <entry key="js" value="10" />
+          <entry key="js" value="13" />
           <entry key="ts" value="1" />
         </counts>
       </usages-collector>
@@ -38,7 +36,7 @@
         <counts>
           <entry key="CSS" value="3" />
           <entry key="HTML" value="5" />
-          <entry key="JavaScript" value="10" />
+          <entry key="JavaScript" value="13" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
@@ -46,14 +44,14 @@
         <counts>
           <entry key="css" value="64" />
           <entry key="html" value="157" />
-          <entry key="js" value="1182" />
+          <entry key="js" value="1238" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="64" />
           <entry key="HTML" value="157" />
-          <entry key="JavaScript" value="1182" />
+          <entry key="JavaScript" value="1238" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -74,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="605">
-              <caret line="62" column="51" lean-forward="true" selection-start-line="62" selection-start-column="51" selection-end-line="62" selection-end-column="51" />
+            <state relative-caret-position="1411">
+              <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
             </state>
           </provider>
         </entry>
@@ -85,6 +83,24 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../CS6630_DataViz/hw4/HW4_solution/js/gap_plot.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1686">
+              <caret line="492" column="15" selection-start-line="492" selection-start-column="4" selection-end-line="492" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../CS6630_DataViz/hw4/HW4_solution/js/script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="986">
+              <caret line="58" column="24" lean-forward="true" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -107,6 +123,11 @@
       <find>stroke</find>
       <find>colorScale</find>
       <find>colorScal</find>
+      <find>data</find>
+      <find>slid</find>
+      <find>yearBar</find>
+      <find>slider</find>
+      <find>Bar</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,12 +203,12 @@
       <option name="presentableId" value="Default" />
       <updated>1540917439168</updated>
       <workItem from="1540917441269" duration="8664000" />
-      <workItem from="1543878221302" duration="1543000" />
+      <workItem from="1543878221302" duration="2266000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10207000" />
+    <option name="totallyTimeSpent" value="10930000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="863" y="0" width="1066" height="1057" extended-state="0" />
@@ -282,17 +303,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../CS6630_DataViz/hw6/public/js/yearChart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1156">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="1675">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
         </state>
       </provider>
     </entry>
@@ -303,10 +317,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../CS6630_DataViz/hw4/HW4_solution/js/gap_plot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1686">
+          <caret line="492" column="15" selection-start-line="492" selection-start-column="4" selection-end-line="492" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../CS6630_DataViz/hw4/HW4_solution/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="24" lean-forward="true" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="605">
-          <caret line="62" column="51" lean-forward="true" selection-start-line="62" selection-start-column="51" selection-end-line="62" selection-end-column="51" />
+        <state relative-caret-position="1411">
+          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
         </state>
       </provider>
     </entry>
