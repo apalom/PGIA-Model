@@ -1,4 +1,4 @@
-''
+
 
 let width = 800, height = 400;
 let networkSVG = d3.select('#network-Div')
@@ -16,19 +16,21 @@ readData();
 async function readData() {
 
     try{
-        const data = await d3.csv('case12_bus.csv');
+        const busData = await d3.csv('case12_bus.csv');
+        const ampData = await d3.csv('lineAmps.csv');
 
-        console.log("Datafile: ", data);
+        console.log("Bus Config: ", busData);
+        console.log("Line Loading: ", ampData);
 
-        update(data)
+        update(busData)
 
     } catch (error) {
         alert('Could not load the dataset!');
     }
 }
 
-function update(data) {
-    console.log('Line 0 tbus: ', data[0].tbus);
+function update(busData) {
+    //console.log('Line 0 tbus: ', busData[0].tbus);
 
     // Set up linear SVG scales
     let xScale = d3.scaleLinear()
@@ -46,7 +48,7 @@ function update(data) {
     let branches = d3.select('#networkSVG')   // SELECT
 
     let selectBranches = branches             // UPDATE
-        .selectAll('line').data(data);
+        .selectAll('line').data(busData);
 
     let drawBranches = selectBranches         // ENTER
         .enter().append('line');

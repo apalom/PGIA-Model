@@ -56,7 +56,7 @@ plt.show()
 
 #%% Plot Line Currents
 
-path1 = 'data\\Scenario8\\CaseA\\'
+path1 = 'data\\Scenario4\\Case_Base\\'
 
 #test = np.zeros((maxTrials*24,1))
 
@@ -74,9 +74,54 @@ ampsL1 = ampsL1.drop(labels='index', axis=1)
 
 #%%
 
-data = pd.DataFrame({'L1 - Min': ampsL1.quantile(0.05, axis=1), 'L1 - Mean': ampsL1.quantile(0.50, axis=1), 'L1 - Max': ampsL1.quantile(0.95, axis=1), 
-                     'L3 - Min': ampsL3.quantile(0.05, axis=1), 'L3 - Mean': ampsL3.quantile(0.50, axis=1), 'L3 - Max': ampsL3.quantile(0.95, axis=1), 
-                     'L7 - Min': ampsL1.quantile(0.05, axis=1), 'L7 - Mean': ampsL7.quantile(0.50, axis=1), 'L7 - Max': ampsL7.quantile(0.95, axis=1)}) 
+data = pd.DataFrame({'L1 - Min': ampsL1.quantile(0.0, axis=1), 'L1 - Mean': ampsL1.quantile(0.50, axis=1), 'L1 - Max': ampsL1.quantile(1.0, axis=1), 
+                     'L3 - Min': ampsL3.quantile(0.0, axis=1), 'L3 - Mean': ampsL3.quantile(0.50, axis=1), 'L3 - Max': ampsL3.quantile(1.0, axis=1), 
+                     'L7 - Min': ampsL1.quantile(0.0, axis=1), 'L7 - Mean': ampsL7.quantile(0.50, axis=1), 'L7 - Max': ampsL7.quantile(1.0, axis=1)}) 
+
+#%% 
+
+ampsL1_V = ampsL1.unstack();
+ampsL3_V = ampsL3.unstack();
+ampsL7_V = ampsL7.unstack();
+
+data = pd.DataFrame({'L1': ampsL1_V.values, 
+                     'L3': ampsL3_V.values,
+                     'L7': ampsL7_V.values})
+
+
+#%%
+
+new = np.zeros((data.shape[0]*data.shape[1], 2))
+
+tempDf = pd.DataFrame(new, columns = ['Current','Case']);
+
+colNum = 0
+
+for column in data:
+    tempCol = data[column].values;
+    tempLabel = column;
+
+    stRow = colNum*len(data);
+    enRow = colNum*len(data) + len(data);
+    print(stRow, enRow, colNum)
+    tempDf.Current.iloc[stRow:enRow] = tempCol;
+    tempDf.Case.iloc[stRow:enRow] = tempLabel;
+    colNum += 1;
+    
+data1 = tempDf;
+
+#%% Plot Violin Plot 
+
+import seaborn as sns
+
+sns.set(style="whitegrid")
+ax = sns.violinplot(x='Case', y='Current', data=data1, palette='Greys')
+
+cases = list(data)
+
+plt.xlabel('Line')
+plt.ylabel('Line Current (Amps)')
+plt.title('Base Case (0EV)')
 
 #%%
 
