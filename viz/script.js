@@ -13,7 +13,7 @@ readData();
 let slider = document.getElementById("myRange");
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
-    console.log(this.value);
+    console.log('Hr: ', this.value);
     t = this.value;
     readData();
 };
@@ -75,6 +75,9 @@ function updateData(busData, ampData, t) {
     let drawBranches = selectBranches         // ENTER
         .enter().append('line');
 
+    drawBranches.exit().remove();
+
+    console.log('ampHr: ', ampData[0][hr])
 
     //Update properties of path according to the bound data
     drawBranches
@@ -84,13 +87,14 @@ function updateData(busData, ampData, t) {
         .attr('y2', (d) => yScale(d.toY))
         .attr('id', (d,i) => 'line' + (i+1))
         .attr('stroke', function(d,i) {
-
             console.log(ampData[i][hr], colorScale(ampData[i][hr]))
             return colorScale(ampData[i][hr])
         });
 
     let labelBranches = selectBranches
         .enter().append('text');
+
+    labelBranches.exit().remove();
 
     labelBranches
         .text((d,i) => d.line + ' = ' + ampData[i][hr])
@@ -105,6 +109,8 @@ function updateData(busData, ampData, t) {
         .attr('y', (d) => yScale(d.toY)-7.5)
         .attr('height', 15)
         .attr('width', 15);
+
+    console.log(ampData[0][hr])
 
 }
 
