@@ -4,6 +4,7 @@ loadSystem().then(data => {
     console.log('Data: ', data);
 
     this.ampData = data.ampData;
+    this.busData = data.busData;
 
     drawSystem(data.busData);
     drawSlider(1);
@@ -110,11 +111,7 @@ function drawSlider(activeHr) {
 
         sliderText.text(this.value);
         sliderText.attr('x', hourScale(this.value));
-        //let xValue = d3.select('#dropdown_x').select('select').node().value;
-        //let yValue = d3.select('#dropdown_y').select('select').node().value;
-        //let cValue = d3.select('#dropdown_c').select('select').node().value;
-        //that.updatePlot(String(this.value), xValue, yValue, cValue);
-        //that.updateYear(String(this.value));
+
         updateHr(this.value);
     });
 }
@@ -122,6 +119,7 @@ function drawSlider(activeHr) {
 
 function updateHr(activeHr) {
     let ampData1 = this.ampData;
+    let busData1 = this.busData;
 
     console.log('Data1: ', ampData1);
     console.log('Hr: ', activeHr);
@@ -137,6 +135,15 @@ function updateHr(activeHr) {
     });
 
     console.log('Min/Max', min, max);
+
+    let width = 800, height = 400;
+
+    let xScale = d3.scaleLinear()
+        .domain([1, 4])
+        .range([0.1*width, 0.9*width]);
+    let yScale = d3.scaleLinear()
+        .domain([1, 3])
+        .range([0.1*height, 0.9*height]);
 
     // Setup ColorScale
     let colorScale = d3.scaleLinear()
@@ -154,15 +161,15 @@ function updateHr(activeHr) {
         });
 
     this.drawBranches
-        .select('text').remove();
+        .selectAll('text').remove();
+
+    this.drawBranches.append('text');
 
     this.drawBranches
-        .enter().append('line').data(busData)
-        .append('text')
+        .selectAll('text')
         .attr('x', (d) => 0.5 * (xScale(d.fromX)+xScale(d.toX)) + 5)
         .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
-        .text((d,i) => busData[i].Line + ' = ' + ampData1[i][hr])
-
+        .text((d,i) => busData1[i].Line + ' = ' + ampData1[i][hr]);
 
 }
 
