@@ -65,7 +65,7 @@ function drawSlider(activeHr) {
 
     //Slider to change the activeYear of the data
     let hourScale = d3.scaleLinear()
-        .domain([1, 24]).range([30, 730]);
+        .domain([1, 24]).range([30, 650]);
 
     let hourSlider = d3.select('#sliderDiv')
         .append('div').classed('slider-wrap', true)
@@ -77,8 +77,7 @@ function drawSlider(activeHr) {
 
     let sliderLabel = d3.select('.slider-wrap')
         .append('div').classed('slider-label', true)
-        .append('svg')
-        .attr('width', 800);
+        .append('svg');
 
     let sliderText = sliderLabel.append('text')
         .text(activeHr);
