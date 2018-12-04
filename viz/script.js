@@ -121,7 +121,8 @@ function updateHr(activeHr) {
     let ampData1 = this.ampData;
     let busData1 = this.busData;
 
-    console.log('Data1: ', ampData1);
+    console.log('ampData1: ', ampData1);
+    console.log('busData1: ', busData1);
     console.log('Hr: ', activeHr);
 
     let hr = 'hr' + activeHr;
@@ -169,7 +170,7 @@ function updateHr(activeHr) {
         .selectAll('text')
         .attr('x', (d) => 0.5 * (xScale(d.fromX)+xScale(d.toX)) + 5)
         .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
-        .text((d,i) => busData1[i].Line + ' = ' + ampData1[i][hr]);
+        .text((d,i) => d.Line + ' = ' + ampData1[i][hr]);
 
 }
 
