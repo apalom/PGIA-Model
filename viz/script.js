@@ -105,13 +105,15 @@ function updateHr(activeHr) {
     console.log('Data1: ', ampData1);
     console.log('Hr: ', activeHr);
 
-
+    let hr = 'hr' + activeHr;
 
     let min = d3.min(ampData1, function(d) {
-        return d[activeHr]});
+        return d[hr]
+    });
 
     let max = d3.max(ampData1, function(d) {
-        return d[activeHr]});
+        return d[hr]
+    });
 
     console.log('Min/Max', min, max);
 
@@ -123,8 +125,8 @@ function updateHr(activeHr) {
     //Update properties of path according to the bound data
     this.drawBranches
         .attr('stroke', function(d,i) {
-            console.log(ampData1[i][activeHr], colorScale(ampData1[i][activeHr]));
-            return colorScale(ampData1[i][activeHr])
+            console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
+            return colorScale(ampData1[i][hr])
         });
 
 }
