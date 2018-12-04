@@ -30,25 +30,30 @@ function drawSystem(busData) {
 
     let branches = d3.select('#networkSVG');   // SELECT
 
-    let selectBranches = branches             // UPDATE
-        .selectAll('line').data(busData);
+    let selectBranches = branches              // UPDATE
+        .selectAll('g').data(busData);
 
     this.drawBranches = selectBranches         // ENTER
-        .enter().append('line');
+        .enter().append('g');
 
     this.drawBranches.exit().remove();
 
-    //Update properties of path according to the bound data
+    console.log('Line', busData[0].Line)
+
     this.drawBranches
+        .append('text')
+        .attr('x', (d) => 0.5 * (xScale(d.fromX)+xScale(d.toX)) + 5)
+        .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
+        .text((d,i) => busData[i].Line + ' = ' + 0);
+
+    this.drawBranches
+        .append('line')
         .attr('x1', (d) => xScale(d.fromX))
         .attr('y1', (d) => yScale(d.fromY))
         .attr('x2', (d) => xScale(d.toX))
         .attr('y2', (d) => yScale(d.toY))
-        .attr('id', (d,i) => 'line' + (i+1))
-        .attr('stroke', 'black');
-
-    let labelBranches = selectBranches
-        .enter().append('text');
+        .attr('stroke', 'black')
+        .attr('id', (d,i) => busData[i].Line)
 
     let drawBuses = selectBranches
         .enter().append('rect');
@@ -56,8 +61,24 @@ function drawSystem(busData) {
     drawBuses
         .attr('x', (d) => xScale(d.toX)-7.5)
         .attr('y', (d) => yScale(d.toY)-7.5)
+        .attr('id', (d,i) => 'bus' + (i+1))
         .attr('height', 15)
         .attr('width', 15);
+
+    let drawTransformer =  d3.select('#networkSVG')
+
+    drawTransformer
+        .append('rect')
+        .attr('x', xScale(3)-7.5)
+        .attr('y', yScale(2)-7.5)
+        .attr('height', 15)
+        .attr('width', 15);
+
+    drawTransformer
+        .append('text')
+        .attr('x', xScale(3)+10)
+        .attr('y', yScale(2))
+        .text('Bus 1');
 
 }
 
@@ -123,11 +144,25 @@ function updateHr(activeHr) {
         .range(['white', 'red']);
 
     //Update properties of path according to the bound data
+    // let branchColors = this.drawBranches.selectAll('line');
+
     this.drawBranches
+        .select('line')
         .attr('stroke', function(d,i) {
             console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
             return colorScale(ampData1[i][hr])
         });
+
+    this.drawBranches
+        .select('text').remove();
+
+    this.drawBranches
+        .enter().append('line').data(busData)
+        .append('text')
+        .attr('x', (d) => 0.5 * (xScale(d.fromX)+xScale(d.toX)) + 5)
+        .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
+        .text((d,i) => busData[i].Line + ' = ' + ampData1[i][hr])
+
 
 }
 
