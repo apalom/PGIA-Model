@@ -7,8 +7,16 @@ let networkSVG = d3.select('#network-Div')
     .attr('width', width)
     .attr('height', height);
 
+let t = 1;
 readData();
 
+let slider = document.getElementById("myRange");
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    console.log(this.value);
+    t = this.value;
+    readData();
+};
 
 /**
  * Update the data according to network definition
@@ -20,8 +28,8 @@ async function readData() {
         const ampData = await d3.csv('lineAmps.csv');
 
         console.log("Bus Config: ", busData);
-        console.log("Line Loading: ", ampData);
-        //console.log("Current: ", ampData);
+        console.log("Amp Data: ", ampData);
+
 
         updateData(busData, ampData, t)
 
@@ -36,6 +44,8 @@ function updateData(busData, ampData, t) {
     //let t = 1;
     let hr = 'hr' + t;
 
+    console.log("Hr: ", hr);
+
     // Set up linear SVG scales
     let xScale = d3.scaleLinear()
         .domain([1, 4])
@@ -43,7 +53,6 @@ function updateData(busData, ampData, t) {
     let yScale = d3.scaleLinear()
         .domain([1, 3])
         .range([0.1*height, 0.9*height]);
-
 
     let min = d3.min(ampData, function(d) {
         return d[hr]});
@@ -98,4 +107,35 @@ function updateData(busData, ampData, t) {
         .attr('width', 15);
 
 }
+
+function selectHr() {
+
+    //Slider to change the selectHr of the data
+    let dayScale = d3.scaleLinear()
+        .domain([0, width])
+        .range([0, 23]);
+
+    let hrSlider = networkSVG
+        .append('div').classed('slider-wrap', true)
+        .append('input').classed('slider', true)
+        .attr('type', 'range')
+        .attr('min', 1800)
+        .attr('max', 2020)
+        .attr('value', this.Hr);
+
+    let sliderLabel = d3.select('.slider-wrap')
+        .append('div').classed('slider-label', true)
+        .append('svg');
+
+    let sliderText = sliderLabel
+        .append('text')
+        .text(this.Hr);
+
+    sliderText.attr('x', dayScale(this.Hr));
+    sliderText.attr('y', 25);
+
+    console.log(this.Hr)
+
+}
+
 
