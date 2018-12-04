@@ -1,7 +1,5 @@
 
-
-
-h1, text {
+h1, text, p {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -10,4 +8,9 @@ line {
 
      */
     stroke-width: 4;
+}
+
+#slider-label {
+    font-family: 'Roboto', sans-serif;
+    width: 800px;
 }
