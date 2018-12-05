@@ -71,8 +71,7 @@ function drawSystem(busData) {
         .append('rect')
         .attr('x', xScale(3)-7.5)
         .attr('y', yScale(2)-7.5)
-        .attr('height', 15)
-        .attr('width', 15);
+        .attr('class', 'bus');
 
     drawTransformer
         .append('text')
