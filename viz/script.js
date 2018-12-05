@@ -125,13 +125,13 @@ function updateHr(activeHr) {
 
     let hr = 'hr' + activeHr;
 
-    let min = d3.min(ampData1, function(d) {
-        return d[hr]
-    });
-
-    let max = d3.max(ampData1, function(d) {
-        return d[hr]
-    });
+    // let min = d3.min(ampData1, function(d) {
+    //     return d[hr]
+    // });
+    //
+    // let max = d3.max(ampData1, function(d) {
+    //     return d[hr]
+    // });
 
     let hrAmps = [];
     hrAmps = ampData1.map( function(d,i) {
@@ -143,10 +143,9 @@ function updateHr(activeHr) {
 
     console.log('some ampData', hrAmps)
 
-    min = d3.min(hrAmps);
-    max = d3.max(hrAmps);
-
-
+    let min = d3.min(hrAmps);
+    let max = d3.max(hrAmps);
+    
     console.log('Min/Max', min, max);
 
     let width = 800, height = 400;

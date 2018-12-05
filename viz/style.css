@@ -10,12 +10,10 @@ line {
 .bus {
     width: 15px;
     height: 15px;
-    background-color: #e4e4e4;
+    background: #e4e4e4;
     border-radius: 5px;
     border: 1px solid black;
 }
-
-
 
 /* slider styling */
 .slider {
