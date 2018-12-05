@@ -4,14 +4,20 @@ h1, text, p {
 }
 
 line {
-    /*stroke: #5d5d5d;
-
-     */
     stroke-width: 4;
 }
 
-/* slider styling */
+.bus {
+    width: 15px;
+    height: 15px;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    border: 1px solid black;
+}
 
+
+
+/* slider styling */
 .slider {
     -webkit-appearance: none;
     width: 650px;

@@ -62,11 +62,10 @@ function drawSystem(busData) {
     drawBuses
         .attr('x', (d) => xScale(d.toX)-7.5)
         .attr('y', (d) => yScale(d.toY)-7.5)
-        .attr('id', (d,i) => 'bus' + (i+1))
-        .attr('height', 15)
-        .attr('width', 15);
+        //.attr('id', (d,i) => 'bus' + (i+1))
+        .attr('class', 'bus');
 
-    let drawTransformer =  d3.select('#networkSVG')
+    let drawTransformer =  d3.select('#networkSVG');
 
     drawTransformer
         .append('rect')
