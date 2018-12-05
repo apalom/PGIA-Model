@@ -135,6 +135,20 @@ function updateHr(activeHr) {
         return d[hr]
     });
 
+    let hrAmps = [];
+    hrAmps = ampData1.map( function(d,i) {
+        hrAmps[i] = parseFloat(ampData1[i][hr])
+        return hrAmps;
+    });
+
+    hrAmps = hrAmps[0];
+
+    console.log('some ampData', hrAmps)
+
+    min = d3.min(hrAmps);
+    max = d3.max(hrAmps);
+
+
     console.log('Min/Max', min, max);
 
     let width = 800, height = 400;
@@ -148,7 +162,7 @@ function updateHr(activeHr) {
 
     // Setup ColorScale
     let colorScale = d3.scaleLinear()
-        .domain([min-5, max])
+        .domain([min-10, max])
         .range(['white', 'red']);
 
     //Update properties of path according to the bound data
@@ -171,7 +185,6 @@ function updateHr(activeHr) {
         .attr('x', (d) => 0.5 * (xScale(d.fromX)+xScale(d.toX)) + 5)
         .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
         .text((d,i) => d.Line + ' = ' + ampData1[i][hr]);
-
 }
 
 async function loadSystem () {
