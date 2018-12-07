@@ -79,7 +79,6 @@ function drawSystem(busData) {
         .attr('x', xScale(3)+10)
         .attr('y', yScale(2))
         .text('Bus 1');
-
 }
 
 function drawSlider(activeHr) {
@@ -87,29 +86,29 @@ function drawSlider(activeHr) {
     let xfmrData = this.xfmrData;
 
     // Set up SVG
-    let width = 650, height = 60;
+    let width = 800, height = 60;
 
     console.log('xfmrData: ', xfmrData)
 
     // Set up the scales
-    let xScale = d3.scaleLinear()
+    let hrScale = d3.scaleLinear()
         .domain([1, 24])//d3.max(xfmrData, d => d.hr)])
-        .range([0, width]);
-    let yScale = d3.scaleLinear()
+        .range([30, 650]);
+    let kwScale = d3.scaleLinear()
         .domain([0, 130]) //d3.max(xfmrData, d => d.kw)])
         .range([0, (height-10)]);
 
     let xfmrLoadSVG = d3.select('#sliderDiv')
         .append('svg')
         .attr('id', 'totLoadSVG')
-        .attr('transform', 'translate(70,-5) scale(1,-1)')
+        .attr('transform', 'translate(55,-5) scale(1,-1)') //'translate(70,-5)
         .attr('width', width)
         .attr('height', height);
 
     let areaGen = d3.area()
-        .x(d => xScale(d.hr))
+        .x(d => hrScale(d.hr))
         .y0(0)
-        .y1(d => yScale(d.kw));
+        .y1(d => kwScale(d.kw));
 
     let areaData = areaGen(xfmrData);
 
@@ -121,9 +120,6 @@ function drawSlider(activeHr) {
 
 
     //Slider to change the activeHr of the data
-    let hourScale = d3.scaleLinear()
-        .domain([1, 24]).range([30, 650]);
-
     let hourSlider = d3.select('#sliderDiv')
         .append('div').classed('slider-wrap', true)
         .append('input').classed('slider', true)
@@ -139,13 +135,13 @@ function drawSlider(activeHr) {
     let sliderText = sliderLabel.append('text')
         .text(activeHr);
 
-    sliderText.attr('x', hourScale(activeHr));
+    sliderText.attr('x', hrScale(activeHr));
     sliderText.attr('y', 25);
 
     hourSlider.on('input', function() {
 
         sliderText.text(this.value);
-        sliderText.attr('x', hourScale(this.value));
+        sliderText.attr('x', hrScale(this.value));
 
         updateHr(this.value);
     });
