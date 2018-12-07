@@ -87,38 +87,38 @@ function drawSlider(activeHr) {
     let xfmrData = this.xfmrData;
 
     // Set up SVG
-    let width = 650, height = 50;
+    let width = 650, height = 60;
 
     console.log('xfmrData: ', xfmrData)
 
     // Set up the scales
     let xScale = d3.scaleLinear()
-        .domain([0, d3.max(xfmrData, d => d.hr)])
+        .domain([1, 24])//d3.max(xfmrData, d => d.hr)])
         .range([0, width]);
     let yScale = d3.scaleLinear()
-        .domain([0, d3.max(xfmrData, d => d.kw)])
-        .range([0, height]);
+        .domain([0, 130]) //d3.max(xfmrData, d => d.kw)])
+        .range([0, (height-10)]);
 
     let xfmrLoadSVG = d3.select('#sliderDiv')
         .append('svg')
         .attr('id', 'totLoadSVG')
-        .attr('transform', 'translate(70,0)')
+        .attr('transform', 'translate(70,-5) scale(1,-1)')
         .attr('width', width)
         .attr('height', height);
 
-    // Data to be bound is the output of aLineGenerator
-    let lineGen = d3.line()
-        .x((d) => xScale(d.hr))
-        .y((d) => yScale(d.kw));
+    let areaGen = d3.area()
+        .x(d => xScale(d.hr))
+        .y0(0)
+        .y1(d => yScale(d.kw));
 
-    let pathData = lineGen(xfmrData);
+    let areaData = areaGen(xfmrData);
 
-    let selectPath = d3.select("#totLoadSVG")
-        .append('path');                 // SELECT
+    let selectArea = d3.select("#totLoadSVG")
+        .append('path');
 
-    //Update properties of path according to the bound data
-    selectPath
-        .attr('d', pathData);
+    selectArea
+        .attr('d', areaData);
+
 
     //Slider to change the activeHr of the data
     let hourScale = d3.scaleLinear()
