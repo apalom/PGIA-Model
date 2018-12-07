@@ -83,7 +83,24 @@ function drawSystem(busData) {
 
 function drawSlider(activeHr) {
 
-    //Slider to change the activeYear of the data
+    // Set up SVG
+    let width = 800, height = 50;
+
+    let xfmrLoadSVG = d3.select('#sliderDiv')
+        .append('svg')
+        .attr('id', 'totLoadSVG')
+        .attr('width', width)
+        .attr('height', height);
+
+    // let branches = d3.select('#networkSVG');   // SELECT
+    //
+    // let selectBranches = branches              // UPDATE
+    //     .selectAll('g').data(busData);
+    //
+    // this.drawBranches = selectBranches         // ENTER
+    //     .enter().append('g');
+    
+    //Slider to change the activeHr of the data
     let hourScale = d3.scaleLinear()
         .domain([1, 24]).range([30, 650]);
 
@@ -183,6 +200,8 @@ function updateHr(activeHr) {
         .attr('y', (d) => 0.5 * (yScale(d.fromY)+yScale(d.toY)) + 20)
         .text((d,i) => d.Line + ' = ' + ampData1[i][hr]);
 }
+
+
 
 async function loadSystem () {
     const busData = await d3.csv('case12_bus.csv');
