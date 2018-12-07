@@ -5,6 +5,7 @@ loadSystem().then(data => {
 
     this.ampData = data.ampData;
     this.busData = data.busData;
+    this.xfmrData = data.xfmrData;
 
     drawSystem(data.busData);
     drawSlider(1);
@@ -83,23 +84,42 @@ function drawSystem(busData) {
 
 function drawSlider(activeHr) {
 
+    let xfmrData = this.xfmrData;
+
     // Set up SVG
-    let width = 800, height = 50;
+    let width = 650, height = 50;
+
+    console.log('xfmrData: ', xfmrData)
+
+    // Set up the scales
+    let xScale = d3.scaleLinear()
+        .domain([0, d3.max(xfmrData, d => d.hr)])
+        .range([0, width]);
+    let yScale = d3.scaleLinear()
+        .domain([0, d3.max(xfmrData, d => d.kw)])
+        .range([0, height]);
 
     let xfmrLoadSVG = d3.select('#sliderDiv')
         .append('svg')
         .attr('id', 'totLoadSVG')
+        .attr('transform', 'translate(70,0)')
         .attr('width', width)
         .attr('height', height);
 
-    // let branches = d3.select('#networkSVG');   // SELECT
-    //
-    // let selectBranches = branches              // UPDATE
-    //     .selectAll('g').data(busData);
-    //
-    // this.drawBranches = selectBranches         // ENTER
-    //     .enter().append('g');
-    
+    // Data to be bound is the output of aLineGenerator
+    let lineGen = d3.line()
+        .x((d) => xScale(d.hr))
+        .y((d) => yScale(d.kw));
+
+    let pathData = lineGen(xfmrData);
+
+    let selectPath = d3.select("#totLoadSVG")
+        .append('path');                 // SELECT
+
+    //Update properties of path according to the bound data
+    selectPath
+        .attr('d', pathData);
+
     //Slider to change the activeHr of the data
     let hourScale = d3.scaleLinear()
         .domain([1, 24]).range([30, 650]);
@@ -134,21 +154,8 @@ function drawSlider(activeHr) {
 
 function updateHr(activeHr) {
     let ampData1 = this.ampData;
-    let busData1 = this.busData;
-
-    console.log('ampData1: ', ampData1);
-    console.log('busData1: ', busData1);
-    console.log('Hr: ', activeHr);
 
     let hr = 'hr' + activeHr;
-
-    // let min = d3.min(ampData1, function(d) {
-    //     return d[hr]
-    // });
-    //
-    // let max = d3.max(ampData1, function(d) {
-    //     return d[hr]
-    // });
 
     let hrAmps = [];
     hrAmps = ampData1.map( function(d,i) {
@@ -158,12 +165,8 @@ function updateHr(activeHr) {
 
     hrAmps = hrAmps[0];
 
-    console.log('some ampData', hrAmps)
-
     let min = d3.min(hrAmps);
     let max = d3.max(hrAmps);
-    
-    console.log('Min/Max', min, max);
 
     let width = 800, height = 400;
 
@@ -185,7 +188,7 @@ function updateHr(activeHr) {
     this.drawBranches
         .select('line')
         .attr('stroke', function(d,i) {
-            console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
+            //console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
             return colorScale(ampData1[i][hr])
         });
 
@@ -206,9 +209,11 @@ function updateHr(activeHr) {
 async function loadSystem () {
     const busData = await d3.csv('case12_bus.csv');
     const ampData = await d3.csv('lineAmps.csv');
+    const xfmrData = await d3.csv('P_XFMR.csv');
 
     return {
         'busData': busData,
-        'ampData': ampData
+        'ampData': ampData,
+        'xfmrData': xfmrData
     };
 }
