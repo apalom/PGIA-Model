@@ -5,6 +5,7 @@ loadSystem().then(data => {
 
     this.ampData = data.ampData;
     this.busData = data.busData;
+    this.xfmrData = data.xfmrData;
 
     drawSystem(data.busData);
     drawSlider(1);
@@ -78,15 +79,26 @@ function drawSystem(busData) {
         .attr('x', xScale(3)+10)
         .attr('y', yScale(2))
         .text('Bus 1');
-
 }
 
 function drawSlider(activeHr) {
 
-    //Slider to change the activeYear of the data
-    let hourScale = d3.scaleLinear()
-        .domain([1, 24]).range([30, 650]);
+    let xfmrData = this.xfmrData;
 
+    // Set up SVG
+    let width = 650, height = 60;
+
+    console.log('xfmrData: ', xfmrData)
+
+    // Set up the scales
+    let hrScale = d3.scaleLinear()
+        .domain([1, 24])//d3.max(xfmrData, d => d.hr)])
+        .range([30, width]);
+    let kwScale = d3.scaleLinear()
+        .domain([0, 130]) //d3.max(xfmrData, d => d.kw)])
+        .range([0, (height-10)]);
+
+    //Slider to change the activeHr of the data
     let hourSlider = d3.select('#sliderDiv')
         .append('div').classed('slider-wrap', true)
         .append('input').classed('slider', true)
@@ -102,36 +114,45 @@ function drawSlider(activeHr) {
     let sliderText = sliderLabel.append('text')
         .text(activeHr);
 
-    sliderText.attr('x', hourScale(activeHr));
+    sliderText.attr('x', hrScale(activeHr));
     sliderText.attr('y', 25);
 
     hourSlider.on('input', function() {
 
         sliderText.text(this.value);
-        sliderText.attr('x', hourScale(this.value));
+        sliderText.attr('x', hrScale(this.value));
 
         updateHr(this.value);
     });
+
+    // Add xfmr profile load over slider
+    let xfmrLoadSVG = d3.select('.slider-wrap')
+        .append('svg')
+        .attr('id', 'totLoadSVG')
+        .attr('transform', 'translate(0,-20) scale(1,-1)') //'translate(70,-5)
+        .attr('width', width)
+        .attr('height', height);
+
+    let areaGen = d3.area()
+        .x(d => hrScale(d.hr))
+        .y0(0)
+        .y1(d => kwScale(d.kw));
+
+    let areaData = areaGen(xfmrData);
+
+    let selectArea = d3.select("#totLoadSVG")
+        .append('path');
+
+    selectArea
+        .attr('d', areaData);
+
 }
 
 
 function updateHr(activeHr) {
     let ampData1 = this.ampData;
-    let busData1 = this.busData;
-
-    console.log('ampData1: ', ampData1);
-    console.log('busData1: ', busData1);
-    console.log('Hr: ', activeHr);
 
     let hr = 'hr' + activeHr;
-
-    // let min = d3.min(ampData1, function(d) {
-    //     return d[hr]
-    // });
-    //
-    // let max = d3.max(ampData1, function(d) {
-    //     return d[hr]
-    // });
 
     let hrAmps = [];
     hrAmps = ampData1.map( function(d,i) {
@@ -141,12 +162,8 @@ function updateHr(activeHr) {
 
     hrAmps = hrAmps[0];
 
-    console.log('some ampData', hrAmps)
-
     let min = d3.min(hrAmps);
     let max = d3.max(hrAmps);
-    
-    console.log('Min/Max', min, max);
 
     let width = 800, height = 400;
 
@@ -168,7 +185,7 @@ function updateHr(activeHr) {
     this.drawBranches
         .select('line')
         .attr('stroke', function(d,i) {
-            console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
+            //console.log(ampData1[i][hr], colorScale(ampData1[i][hr]));
             return colorScale(ampData1[i][hr])
         });
 
@@ -184,12 +201,16 @@ function updateHr(activeHr) {
         .text((d,i) => d.Line + ' = ' + ampData1[i][hr]);
 }
 
+
+
 async function loadSystem () {
     const busData = await d3.csv('case12_bus.csv');
     const ampData = await d3.csv('lineAmps.csv');
+    const xfmrData = await d3.csv('P_XFMR.csv');
 
     return {
         'busData': busData,
-        'ampData': ampData
+        'ampData': ampData,
+        'xfmrData': xfmrData
     };
 }

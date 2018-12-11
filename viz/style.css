@@ -7,6 +7,14 @@ line {
     stroke-width: 4;
 }
 
+path {
+    /*stroke: black;*/
+    /*stroke-width: 2;*/
+    stroke-linecap: round;
+    fill: darkgrey;
+    fill-rule: evenodd;
+}
+
 .bus {
     width: 15px;
     height: 15px;
