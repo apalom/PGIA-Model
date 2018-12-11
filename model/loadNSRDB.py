@@ -48,7 +48,7 @@ for key, yrData in data.items():
     tempData = yrData.loc[yrData.Month == month]
     tempData = tempData.loc[tempData.Day == day]
     
-    tempDayData[col[i]] = tempData.GHI.values
+    tempDayData[col[i]] = tempData.Temperature.values
     i += 1;
 
     
