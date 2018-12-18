@@ -51,5 +51,9 @@ for key, yrData in data.items():
     tempDayData[col[i]] = tempData.Temperature.values
     i += 1;
 
+#%%     
     
-    
+dfGHI = pd.read_excel('data\\NSRDB\\10yrGHI.xlsx')
+dfCelcius = pd.read_excel('data\\NSRDB\\10yrTemp.xlsx')
+dfFarenheit = dfCelcius.apply(lambda x: x*(9/5) + 32)
+
