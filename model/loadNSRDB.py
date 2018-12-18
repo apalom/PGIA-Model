@@ -25,9 +25,6 @@ for year in tempCol:
     x = ('yr'+ str(year))
     col.append(x)
 
-dfTemp = pd.DataFrame(0, index=np.arange(24), columns=col)
-dfGHI = pd.DataFrame(0, index=np.arange(24), columns=col)
-
 for file in files:
     
     data[yr] = pd.read_csv(file)
@@ -63,8 +60,7 @@ for key, yrData in data.items():
     col = 'yr'+ str(yr)
     dfTempDay[col] = tempData.Temperature.values
     dfGHIDay[col] = tempData.GHI.values
-    
-    yr += 1;
+
 
 #%%
 
@@ -75,7 +71,7 @@ sampleKDE_F = dfTempDay.iloc[0]
 my_kde = st.gaussian_kde(sampleKDE_F)
 sampleKDE_F = my_kde.resample(1)[0][0]
 
-
+#%%
 #    
 ##%% Parse Date
 #

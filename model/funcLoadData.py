@@ -42,27 +42,53 @@ def funcLoadData():
     elapsedLoadEV = timeit.default_timer() - timeLoadEV
     print('Load EV time: {0:.4f} sec'.format(elapsedLoadEV))
 
-    #---- Import Solar NSRDB Data ----#
+    #---- Import NSRDB Data ----#
     timeLoadSolar= timeit.default_timer()
+
+    import glob
+        
+    files = glob.glob("data/NSRDB/158327*.csv")
     
-    #dfSolar0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NSRDB_158327_2016.xlsx', header=0);
-    dfSolar0 = pd.read_excel('data\\NSRDB_158327_2016.xlsx', header=0);
-    dfSolar = dfSolar0;
+    dfNSRDB = {}
+    yr = 2008;
     
+    tempCol = list(np.arange(2008,2018,1));    
+    col = []    
+    for year in tempCol:
+        x = ('yr'+ str(year))
+        col.append(x)
+
+    for file in files:
+        
+        dfNSRDB[yr] = pd.read_csv(file)
+        dfNSRDB[yr].Temperature = dfNSRDB[yr].Temperature.apply(lambda x: x*(9/5) + 32)
+    
+        yr += 1;
+
     elapsedLoadSolar = timeit.default_timer() - timeLoadSolar
-    print('Load Solar time: {0:.4f} sec'.format(elapsedLoadSolar))
+    print('Load NSRDB time: {0:.4f} sec'.format(elapsedLoadSolar))
 
-    #---- Import Ambient Temp Data ----#
-    timeLoadAmbient= timeit.default_timer()
+#    #---- Import Solar NSRDB Data ----#
+#    timeLoadSolar= timeit.default_timer()
+#    
+#    #dfSolar0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NSRDB_158327_2016.xlsx', header=0);
+#    dfSolar0 = pd.read_excel('data\\NSRDB_158327_2016.xlsx', header=0);
+#    dfSolar = dfSolar0;
+#    
+#    elapsedLoadSolar = timeit.default_timer() - timeLoadSolar
+#    print('Load Solar time: {0:.4f} sec'.format(elapsedLoadSolar))
+#
+#    #---- Import Ambient Temp Data ----#
+#    timeLoadAmbient= timeit.default_timer()
+#
+#    #dfAmbient0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NOAA_SLC_2016_season.xlsx');
+#    dfAmbient0 = pd.read_excel('data\\NOAA_SLC_2016_season.xlsx');
+#    dfAmbient = dfAmbient0;
+#    
+#    elapsedLoadAmbient = timeit.default_timer() - timeLoadAmbient
+#    print('Load Ambient Temp time: {0:.4f} sec'.format(elapsedLoadAmbient))
 
-    #dfAmbient0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NOAA_SLC_2016_season.xlsx');
-    dfAmbient0 = pd.read_excel('data\\NOAA_SLC_2016_season.xlsx');
-    dfAmbient = dfAmbient0;
-    
-    elapsedLoadAmbient = timeit.default_timer() - timeLoadAmbient
-    print('Load Ambient Temp time: {0:.4f} sec'.format(elapsedLoadAmbient))
-
-    return (dfSys, dfHome, dfEV, dfSolar, dfAmbient)
+    return (dfSys, dfHome, dfEV, dfNSRDB)
 
 
 

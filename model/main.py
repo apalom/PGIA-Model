@@ -18,7 +18,7 @@ timeMain = timeit.default_timer()
 
 # Load Data Function Call 
 from funcLoadData import *
-[dfSys, dfHome, dfEV, dfSolar, dfAmbient] = funcLoadData()
+[dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
 
@@ -79,7 +79,7 @@ outAvgAmps = np.zeros((24,numLines));
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
-[day, dfHomeDay, dfSolarDay, dfAmbientDay] = funcPeakDay(day, dfHome, dfSolar, dfAmbient)
+[day, dfHomeDay, dfNSRDB] = funcPeakDay(day, dfHome, dfNSRDB)
 
 for trial in range(maxTrials):
 
