@@ -14,7 +14,9 @@ def funcLoadData():
     #---- Import Case ----#
     timeLoadCase = timeit.default_timer()
     
-    dfSys0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\case12.xlsx', sheet_name=None, header=0)
+    #dfSys0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\case12.xlsx', sheet_name=None, header=0)
+    #dfSys0 = pd.read_excel(r'C:\Users\Alex Palomino\Documents\GitHub\PGIA-Model\model\data\case12.xlsx', sheet_name=None, header=0)
+    dfSys0 = pd.read_excel('data\\case12.xlsx', sheet_name=None, header=0)
     dfSys = dfSys0;
     
     elapsedLoadCase = timeit.default_timer() - timeLoadCase
@@ -23,7 +25,8 @@ def funcLoadData():
     #---- Import RMP Load ----#
     timeLoadRMP = timeit.default_timer()
     
-    dfHome0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\2015_Residential_Load Profile_v1_WestmartEV_RAW.xlsx', header=0)
+    #dfHome0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\2015_Residential_Load Profile_v1_WestmartEV_RAW.xlsx', header=0);
+    dfHome0 = pd.read_excel('data\\2015_Residential_Load Profile_v1_WestmartEV_RAW.xlsx', header=0);
     dfHome = dfHome0;
     
     elapsedLoadRMP = timeit.default_timer() - timeLoadRMP
@@ -32,7 +35,8 @@ def funcLoadData():
     #---- Import EVs Connected ----#
     timeLoadEV = timeit.default_timer()
     
-    dfEV0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0)
+    #dfEV0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0);
+    dfEV0 = pd.read_excel('data\\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0);
     dfEV = dfEV0;
     
     elapsedLoadEV = timeit.default_timer() - timeLoadEV
@@ -41,7 +45,8 @@ def funcLoadData():
     #---- Import Solar NSRDB Data ----#
     timeLoadSolar= timeit.default_timer()
     
-    dfSolar0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NSRDB_158327_2016.xlsx', header=0)
+    #dfSolar0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NSRDB_158327_2016.xlsx', header=0);
+    dfSolar0 = pd.read_excel('data\\NSRDB_158327_2016.xlsx', header=0);
     dfSolar = dfSolar0;
     
     elapsedLoadSolar = timeit.default_timer() - timeLoadSolar
@@ -50,7 +55,8 @@ def funcLoadData():
     #---- Import Ambient Temp Data ----#
     timeLoadAmbient= timeit.default_timer()
 
-    dfAmbient0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NOAA_SLC_2016_season.xlsx');
+    #dfAmbient0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\NOAA_SLC_2016_season.xlsx');
+    dfAmbient0 = pd.read_excel('data\\NOAA_SLC_2016_season.xlsx');
     dfAmbient = dfAmbient0;
     
     elapsedLoadAmbient = timeit.default_timer() - timeLoadAmbient
