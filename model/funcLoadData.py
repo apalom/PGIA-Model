@@ -63,3 +63,6 @@ def funcLoadData():
     print('Load Ambient Temp time: {0:.4f} sec'.format(elapsedLoadAmbient))
 
     return (dfSys, dfHome, dfEV, dfSolar, dfAmbient)
+
+
+
