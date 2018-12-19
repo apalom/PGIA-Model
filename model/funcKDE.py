@@ -5,7 +5,7 @@ Created on Tue Sep 25 16:43:39 2018
 @author: Alex
 """
 
-def funcKDE(dfHomeDay, dfNSRDB, hr, numHomes, numBuses):
+def funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses):
     
     from scipy import stats as st
     import numpy as np
@@ -60,6 +60,12 @@ def funcKDE(dfHomeDay, dfNSRDB, hr, numHomes, numBuses):
     #dfSys['Bus'].Pd = sampleKDE_kW[0][:]
     #dfSys['Bus'].Qd = samplekVARpHr[0][:]
     
+    sampleKDE_F = dfTempDay.iloc[hr]
+    my_kde = st.gaussian_kde(sampleKDE_F)
+    hrTempF = my_kde.resample(1)[0][0]
     
+    sampleKDE_GHI = dfGHIDay.iloc[hr]
+    my_kde = st.gaussian_kde(sampleKDE_GHI)
+    hrGHI = my_kde.resample(1)[0][0]
     
-    return (loadHome_kW, loadHome_kVAR)
+    return (loadHome_kW, loadHome_kVAR, hrTempF, hrGHI)

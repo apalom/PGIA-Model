@@ -5,15 +5,14 @@ Created on Wed Nov 14 14:16:54 2018
 @author: Alex
 """
 
-def funcAging(dfAmbientDay, day_P_xfmr):
+def funcAging(day_Temps, day_P_xfmr):
     
     import pandas as pd
     import numpy as np
     import math
-    
-
-      
-    thetaA = dfAmbientDay.tempC;
+          
+    #thetaA = day_Temps.tempC;
+    thetaA = day_Temps;
     L = day_P_xfmr;
     
     # Transformer Parameters

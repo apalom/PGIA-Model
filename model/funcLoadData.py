@@ -9,6 +9,7 @@ def funcLoadData():
 
     # import libraries
     import pandas as pd
+    import numpy as np
     import timeit
     
     #---- Import Case ----#
@@ -61,7 +62,8 @@ def funcLoadData():
     for file in files:
         
         dfNSRDB[yr] = pd.read_csv(file)
-        dfNSRDB[yr].Temperature = dfNSRDB[yr].Temperature.apply(lambda x: x*(9/5) + 32)
+        # -- Need Celcius temps for Transformer Aging -- #
+        #dfNSRDB[yr].Temperature = dfNSRDB[yr].Temperature.apply(lambda x: x*(9/5) + 32)
     
         yr += 1;
 

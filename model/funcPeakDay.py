@@ -12,6 +12,8 @@ def funcPeakDay(day, dfHome, dfNSRDB):
     
     #import library
     from datetime import datetime
+    import pandas as pd
+    import numpy as np
     
     #import residential load data
     try:
@@ -72,5 +74,5 @@ def funcPeakDay(day, dfHome, dfNSRDB):
 #    dfAmbientDay = dfAmbientDay.reset_index(drop=True)
 #    dfAmbientDay = dfAmbientDay.drop(columns=['DATE', 'Hour'])
     
-    return (day, dfHomeDay, dfNSRDB)
+    return (day, dfHomeDay, dfTempDay, dfGHIDay)
 

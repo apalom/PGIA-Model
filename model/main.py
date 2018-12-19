@@ -17,7 +17,7 @@ import csv
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-from funcLoadData import *
+from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 
@@ -79,8 +79,8 @@ outAvgAmps = np.zeros((24,numLines));
 
 # Filter Home Load Data for Single Day
 from funcPeakDay import *
-[day, dfHomeDay, dfNSRDB] = funcPeakDay(day, dfHome, dfNSRDB)
-
+[day, dfHomeDay, dfTempDay, dfGHIDay] = funcPeakDay(day, dfHome, dfNSRDB)
+#%%
 for trial in range(maxTrials):
 
     ## -- case Base -- ##
@@ -112,6 +112,7 @@ for trial in range(maxTrials):
     
     
     day_Amp_flows = np.zeros((24,numLines))
+    day_Temps = np.zeros((24,1))
     day_P_bus = np.zeros((24,9))
     day_Home_kW = np.zeros((24,numBuses))
     day_EV_kW = np.zeros((24,numBuses))
@@ -123,18 +124,19 @@ for trial in range(maxTrials):
         #dfSys['Bus'].Pd = dfSys['Bus'].Pd * (1+(hr/100))
     
         # Apply KDE to Home Loads
-        from funcKDE import *
-        [loadHome_kW, loadHome_kVAR] = funcKDE(dfHomeDay, hr, numHomes, numBuses)
+        from funcKDE import funcKDE
+        [loadHome_kW, loadHome_kVAR, hrTempF, hrGHI] = funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses)
         day_Home_kW [hr,:] = loadHome_kW
+        day_Temps[hr,:] = hrTempF
     
         # Apply Poisson to EV Loads
-        from funcPoiss import *
+        from funcPoiss import funcPoiss
         [loadEV_kW, loadEV_kVAR, EVatHome] = funcPoiss(dfEV, dfSys, maxEV, chgrRate, hr, EVstoHomes, numHomes, numBuses)
         day_EV_kW[hr,:] = loadEV_kW
         
         # PV Solar Gen (no distribution)
-        from funcSolar import *
-        [genPV_kW, genPV_kVAR] = funcSolar(maxPV, dfSolarDay, hr, PVtoHomes, numHomes, numBuses)    
+        from funcSolar import funcSolar
+        [genPV_kW, genPV_kVAR] = funcSolar(maxPV, hrGHI, hr, PVtoHomes, numHomes, numBuses)    
         day_PV_kW[hr,:] = genPV_kW
            
         # Sum Home and EV Loads
@@ -152,7 +154,7 @@ for trial in range(maxTrials):
         dfSys['Gen'].Qg[slackBus] = sum(sum(loadHome_kVAR + loadEV_kVAR - genPV_kVAR))
                 
         # DC Powerflow Function Call 
-        from funcDCPF import *
+        from funcDCPF import funcDCPF
         [B, B0, P_net, P_net0, P_bus, theta, P_flows, Amp_flows] = funcDCPF(dfSys)
 
         # Record daily energy 
@@ -168,8 +170,8 @@ for trial in range(maxTrials):
         day_P_xfmr = day_P_bus[:,0];
                         
     # XFMR Aging Function Call 
-    from funcAging import *
-    [day_Faa, day_thetaH] = funcAging(dfAmbientDay, day_P_xfmr)
+    from funcAging import funcAging
+    [day_Faa, day_thetaH] = funcAging(day_Temps, day_P_xfmr)
     
         
     # Plot Heat Maps

@@ -5,7 +5,7 @@ Created on Tue Oct  2 08:12:09 2018
 @author: Alex
 """
 
-def funcSolar(maxPV, dfSolarDay, hr, PVtoHomes, numHomes, numBuses):
+def funcSolar(maxPV, hrGHI, hr, PVtoHomes, numHomes, numBuses):
     
     import numpy as np
     import random
@@ -21,7 +21,7 @@ def funcSolar(maxPV, dfSolarDay, hr, PVtoHomes, numHomes, numBuses):
             
   
     for el in PVtoHomes:        
-        sampleSolar_kW[0][el] = (dfSolarDay['DNI'][hr]/1000)*pvSize*pvEff
+        sampleSolar_kW[0][el] = (hrGHI/1000)*pvSize*pvEff
 
     # Note Homes 1 & 2 are on bus 9, H3-4 on b5, H5-6 b7
     # H7-8 on b8, H9-10 on b4, H11-12 on b6    
