@@ -44,13 +44,12 @@ def funcPeakDay(day, dfHome, dfNSRDB):
     m = int(day[6:7]);
     d = int(day[9:10]);
     
-    for key, yrData in dfNSRDB.items():
-        j = 'yr'+str(key)
-        print(j)
+    for yr, yrData in dfNSRDB.items():
         tempData = yrData.loc[yrData.Month == m]
         tempData = tempData.loc[tempData.Day == d]
         
         col = 'yr'+ str(yr)
+        print(col)
         dfTempDay[col] = tempData.Temperature.values
         dfGHIDay[col] = tempData.GHI.values
     

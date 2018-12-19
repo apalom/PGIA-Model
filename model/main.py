@@ -69,6 +69,8 @@ dfPxfmr = np.zeros((24,maxTrials));
 day_Amp_Flow_Prev = np.zeros((24,numLines));
 day_P_bus_Prev = np.zeros((24,numBuses));
 
+outGHI = np.zeros((24,maxTrials));
+outTemps = np.zeros((24,maxTrials));
 outPxfmr = np.zeros((24,maxTrials));
 outL1amp = np.zeros((24,maxTrials));
 outL3amp = np.zeros((24,maxTrials));
@@ -110,9 +112,9 @@ for trial in range(maxTrials):
     day_L3amp = np.zeros((24,1))
     day_L7amp = np.zeros((24,1))
     
-    
     day_Amp_flows = np.zeros((24,numLines))
-    day_Temps = np.zeros((24,1))
+    day_Temps = np.zeros((24,trial))
+    day_GHI = np.zeros((24,trial))
     day_P_bus = np.zeros((24,9))
     day_Home_kW = np.zeros((24,numBuses))
     day_EV_kW = np.zeros((24,numBuses))
@@ -125,9 +127,10 @@ for trial in range(maxTrials):
     
         # Apply KDE to Home Loads
         from funcKDE import funcKDE
-        [loadHome_kW, loadHome_kVAR, hrTempF, hrGHI] = funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses)
+        [loadHome_kW, loadHome_kVAR, hrTempC, hrGHI] = funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses)
         day_Home_kW [hr,:] = loadHome_kW
-        day_Temps[hr,:] = hrTempF
+        day_Temps[hr,:] = hrTempC
+        day_GHI[hr,:] = hrGHI
     
         # Apply Poisson to EV Loads
         from funcPoiss import funcPoiss
@@ -184,6 +187,8 @@ for trial in range(maxTrials):
     dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
     #dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
     #dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
+    outGHI[:,trial] = day_GHI;
+    outTemps[:,trial] = day_Temps;
     outPxfmr[:,trial] = day_P_xfmr;
     outL1amp[:,trial] = day_L1amp[:,0];
     outL3amp[:,trial] = day_L3amp[:,0];
