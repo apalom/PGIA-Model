@@ -48,6 +48,7 @@ def funcAging(day_Temps, day_P_xfmr):
     
         dThetaTO[t] = (dThetaTOu[t] - dThetaTO[t-1])*(1 - math.exp(-1/tauTO[t])) + dThetaTO[t-1]
     
+        print(thetaH[t], thetaA[t], dThetaTO[t], dThetaH)
         thetaH[t] = thetaA[t] + dThetaTO[t] + dThetaH
     
         Faa[t] = math.exp(((15000/383) - (15000/(thetaH[t] + 273))))

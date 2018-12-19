@@ -25,7 +25,7 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 3;
+maxTrials = 10;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
@@ -113,8 +113,8 @@ for trial in range(maxTrials):
     day_L7amp = np.zeros((24,1))
     
     day_Amp_flows = np.zeros((24,numLines))
-    day_Temps = np.zeros((24,trial))
-    day_GHI = np.zeros((24,trial))
+    day_Temps = np.zeros((24,1))
+    day_GHI = np.zeros((24,1))
     day_P_bus = np.zeros((24,9))
     day_Home_kW = np.zeros((24,numBuses))
     day_EV_kW = np.zeros((24,numBuses))
@@ -187,8 +187,8 @@ for trial in range(maxTrials):
     dfAvgPbus = (day_P_bus_Prev + day_P_bus);  
     #dfLineOverloads[trial] = sum((day_Amp_flows > secLimit).astype(int)); 
     #dfXFMRoverloads[trial] = sum((day_P_xfmr > XFMRlimit).astype(int));   
-    outGHI[:,trial] = day_GHI;
-    outTemps[:,trial] = day_Temps;
+    outGHI[:,trial] = day_GHI[:,0];
+    outTemps[:,trial] = day_Temps[:,0];
     outPxfmr[:,trial] = day_P_xfmr;
     outL1amp[:,trial] = day_L1amp[:,0];
     outL3amp[:,trial] = day_L3amp[:,0];

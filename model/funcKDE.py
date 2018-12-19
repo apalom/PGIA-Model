@@ -62,7 +62,7 @@ def funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses):
     
     sampleKDE_F = dfTempDay.iloc[hr]
     my_kde = st.gaussian_kde(sampleKDE_F)
-    hrTempF = my_kde.resample(1)[0][0]
+    hrTempC = my_kde.resample(1)[0][0]
     
     if np.mean(dfGHIDay.iloc[hr]) > 0:  
         sampleKDE_GHI = dfGHIDay.iloc[hr]
@@ -71,4 +71,4 @@ def funcKDE(dfHomeDay, dfTempDay, dfGHIDay, hr, numHomes, numBuses):
     else:
         hrGHI = 0
     
-    return (loadHome_kW, loadHome_kVAR, hrTempF, hrGHI)
+    return (loadHome_kW, loadHome_kVAR, hrTempC, hrGHI)
