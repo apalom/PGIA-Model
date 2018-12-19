@@ -5,7 +5,7 @@ Created on Tue Sep 25 16:43:39 2018
 @author: Alex
 """
 
-def funcKDE(dfHomeDay, hr, numHomes, numBuses):
+def funcKDE(dfHomeDay, dfNSRDB, hr, numHomes, numBuses):
     
     from scipy import stats as st
     import numpy as np
@@ -59,5 +59,7 @@ def funcKDE(dfHomeDay, hr, numHomes, numBuses):
     
     #dfSys['Bus'].Pd = sampleKDE_kW[0][:]
     #dfSys['Bus'].Qd = samplekVARpHr[0][:]
+    
+    
     
     return (loadHome_kW, loadHome_kVAR)
