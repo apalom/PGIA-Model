@@ -24,11 +24,11 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- User Inputs ----#
 maxEV = input('Enter Max EV: ')
 maxPV = input('Enter Max PV: ')
+maxTrials = input('Enter Max Trials: ')
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1200;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
@@ -64,7 +64,7 @@ from funcPeakDay import *
 for trial in range(maxTrials):
     
     ## -- case A -- ##
-    EVs Only At End of Lines [1, 6, 7, 12]
+    #EVs Only At End of Lines [1, 6, 7, 12]
     EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
     PVtoHomes = np.random.permutation(numHomes)[0:0];
     
