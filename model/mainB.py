@@ -181,43 +181,43 @@ for trial in range(maxTrials):
 outAvgAmps = dfAvgAmps/(trial+1);
 outAvgPbus = dfAvgPbus/(trial+1);
    
-fileName = 'outputData\B' + str(maxEV) + '-outPxfmr_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outPxfmr_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outPxfmr)
    
-fileName = 'outputData\B' + str(maxEV) + '-outL1amp_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outL1amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL1amp)
 
-fileName = 'outputData\B' + str(maxEV) + '-outL3amp_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outL3amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL3amp)
    
-fileName = 'outputData\B' + str(maxEV) + '-outL7amp_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outL7amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL7amp)   
 
-fileName = 'outputData\B' + str(maxEV) + '-outFaa_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outFaa_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outFaa)
    
-fileName = 'outputData\B' + str(maxEV) + '-outAvgAmps_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outAvgAmps_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outAvgAmps)
    
-fileName = 'outputData\B' + str(maxEV) + '-outAvgPbus_' + str(trial) + '.csv'
+fileName = 'outputData\\B' + str(maxEV) + '-outAvgPbus_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)

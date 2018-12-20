@@ -172,44 +172,45 @@ for trial in range(maxTrials):
 
 outAvgAmps = dfAvgAmps/(trial+1);
 outAvgPbus = dfAvgPbus/(trial+1);
-   
-fileName = 'outputData\0-outPxfmr_' + str(trial) + '.csv'
+
+#%%   
+fileName = 'outputData\\0-outPxfmr_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outPxfmr)
    
-fileName = 'outputData\0-outL1amp_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outL1amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL1amp)
 
-fileName = 'outputData\0-outL3amp_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outL3amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL3amp)
    
-fileName = 'outputData\0-outL7amp_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outL7amp_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outL7amp)   
 
-fileName = 'outputData\0-outFaa_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outFaa_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outFaa)
    
-fileName = 'outputData\0-outAvgAmps_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outAvgAmps_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
    writer.writerows(outAvgAmps)
    
-fileName = 'outputData\0-outAvgPbus_' + str(trial) + '.csv'
+fileName = 'outputData\\0-outAvgPbus_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
    writer = csv.writer(outputFile)
