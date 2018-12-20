@@ -67,6 +67,7 @@ for trial in range(maxTrials):
         EVstoHomes = [1, 6, 7, 11];
     if maxEV == 8:
         EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
+    PVtoHomes = np.random.permutation(numHomes)[0:0]
     
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))

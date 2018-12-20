@@ -16,6 +16,8 @@ import csv
 # start timer 
 timeMain = timeit.default_timer()
 
+maxTrials = int(input('Enter Max Trials: '));
+
 # Load Data Function Call 
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
@@ -25,7 +27,7 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1200;
+#maxTrials = 1200;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
