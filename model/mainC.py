@@ -16,15 +16,15 @@ import csv
 # start timer 
 timeMain = timeit.default_timer()
 
+#---- User Inputs ----#
+maxEV = input('Enter Max EV: ')
+maxPV = input('Enter Max PV: ')
+maxTrials = int(input('Enter Max Trials: '))
+
 # Load Data Function Call 
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
-
-#---- User Inputs ----#
-maxEV = input('Enter Max EV: ')
-maxPV = input('Enter Max PV: ')
-
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis

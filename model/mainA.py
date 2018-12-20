@@ -7,8 +7,8 @@ Created on Wed Sep 19 16:30:52 2018
 """
 
 # import libraries
-import pandas as pd
 import numpy as np
+import pandas as pd
 import timeit
 from itertools import permutations 
 import csv
@@ -16,15 +16,14 @@ import csv
 # start timer 
 timeMain = timeit.default_timer()
 
+#---- User Inputs ----#
+maxEV = int(input('Enter Max EV: '))
+maxTrials = int(input('Enter Max Trials: '))
+
 # Load Data Function Call 
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
-
-#---- User Inputs ----#
-maxEV = input('Enter Max EV: ')
-maxPV = input('Enter Max PV: ')
-maxTrials = input('Enter Max Trials: ')
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
@@ -64,9 +63,10 @@ from funcPeakDay import *
 for trial in range(maxTrials):
     
     ## -- case A -- ##
-    #EVs Only At End of Lines [1, 6, 7, 12]
-    EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
-    PVtoHomes = np.random.permutation(numHomes)[0:0];
+    if maxEV == 4:
+        EVstoHomes = [1, 6, 7, 11];
+    if maxEV == 8:
+        EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
     
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))
