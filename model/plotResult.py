@@ -55,15 +55,17 @@ plt.legend(loc=(0.04,0.65))
 plt.show()
 
 #%% Plot Line Currents
+import pandas as pd
+import numpy as np
 
-path1 = 'data\\Scenario4\\Case_Base\\'
+path1 = 'outputData\\1200\\0-'
 
 #test = np.zeros((maxTrials*24,1))
 
 # Plot F_aa Comparison
-ampsL1 = pd.read_csv(path1 + 'outL1amp_299.csv', header=None)
-ampsL3 = pd.read_csv(path1 + 'outL3amp_299.csv', header=None)
-ampsL7 = pd.read_csv(path1 + 'outL7amp_299.csv', header=None)
+ampsL1 = pd.read_csv(path1 + 'outL1amp_1199.csv', header=None)
+ampsL3 = pd.read_csv(path1 + 'outL3amp_1199.csv', header=None)
+ampsL7 = pd.read_csv(path1 + 'outL7amp_1199.csv', header=None)
 
 
 #%%

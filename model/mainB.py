@@ -17,8 +17,8 @@ import csv
 timeMain = timeit.default_timer()
 
 #---- User Inputs ----#
-maxEV = input('Enter Max EV: ')
-maxPV = input('Enter Max PV: ')
+maxEV = int(input('Enter Max EV: '))
+maxPV = int(input('Enter Max PV: '))
 maxTrials = int(input('Enter Max Trials: '))
 
 # Load Data Function Call 
@@ -29,7 +29,6 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1200;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
@@ -70,9 +69,9 @@ for trial in range(maxTrials):
     if maxEV == 8:
         EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
     if maxPV == 4:
-        PVstoHomes = [1, 6, 7, 11];
+        PVtoHomes = [1, 6, 7, 11];
     if maxPV == 8:
-        PVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];           
+        PVtoHomes = [0, 1, 4, 5, 6, 7, 10, 11];           
     
     # Initialize Day Calculations
     day_P_flows = np.zeros((24,numLines))

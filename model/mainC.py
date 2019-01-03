@@ -17,8 +17,8 @@ import csv
 timeMain = timeit.default_timer()
 
 #---- User Inputs ----#
-maxEV = input('Enter Max EV: ')
-maxPV = input('Enter Max PV: ')
+maxEV = int(input('Enter Max EV: '))
+maxPV = int(input('Enter Max PV: '))
 maxTrials = int(input('Enter Max Trials: '))
 
 # Load Data Function Call 
