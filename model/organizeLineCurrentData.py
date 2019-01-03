@@ -9,7 +9,7 @@ Created on Thu Jan  3 10:48:57 2019
 import pandas as pd
 import numpy as np
 
-path1 = 'outputData\\1200\\0-'
+path1 = 'outputData\\1200\\C8-'
 
 #test = np.zeros((maxTrials*24,1))
 
@@ -47,13 +47,20 @@ for column in data:
     
 data1 = tempDf;
 
+#%%
 
+lineAmps = data1;
+lineAmps = lineAmps.rename(columns={"Current": "Base"})
 
+#%% Case A
 
+lineAmps['EV'] = data1['Current']
 
+#%% Case B
 
+lineAmps['EV + PV'] = data1['Current']
 
+#%% Case C
 
-
-
+lineAmps['Random'] = data1['Current']
 
