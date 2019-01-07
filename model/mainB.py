@@ -141,7 +141,7 @@ for trial in range(maxTrials):
                         
     # XFMR Aging Function Call 
     from funcAging import funcAging
-    [day_Faa, day_thetaH] = funcAging(day_Temps, day_P_xfmr)
+    [day_Faa, day_thetaH] = funcAging(day_Temps, day_P_xfmr, XFMR)
     
         
     # Plot Heat Maps
@@ -166,7 +166,7 @@ for trial in range(maxTrials):
     day_Amp_Flow_Prev = dfAvgAmps;
     day_P_bus_Prev = dfAvgPbus;
     
-    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---] \n')    
+    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV' + str(XFMR) + 'kW  ---] \n')    
 
 #    
 #    #Output Data

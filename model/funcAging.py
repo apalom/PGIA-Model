@@ -5,7 +5,7 @@ Created on Wed Nov 14 14:16:54 2018
 @author: Alex
 """
 
-def funcAging(day_Temps, day_P_xfmr):
+def funcAging(day_Temps, day_P_xfmr, XFMR):
     
     import pandas as pd
     import numpy as np
@@ -17,11 +17,12 @@ def funcAging(day_Temps, day_P_xfmr):
     
     # Transformer Parameters
     xfmrRating = 50;
+    R = XFMR/xfmrRating; #scaling for larger XFMR
     dThetaTOr = 65; # 
     dThetaH = 10;
     n = 0.8 # for ONAN cooling
-    g = 29.38; # gallons of oil in 50kVA xfmr
-    w = 713; # weight of xfmr
+    g = R*29.38; # gallons of oil in 50kVA xfmr
+    w = R*713; # weight of xfmr
     C = 0.05*w + 1.33*g; # oil-time constant
     P_rl = 586; # rated load loss W
     P_nll = 86; # no load loss W
