@@ -19,6 +19,7 @@ timeMain = timeit.default_timer()
 #---- User Inputs ----#
 maxEV = int(input('Enter Max EV: '))
 maxPV = int(input('Enter Max PV: '))
+XFMR = int(input('Enter XFMR Rating: '))
 maxTrials = int(input('Enter Max Trials: '))
 
 # Load Data Function Call 
@@ -30,7 +31,7 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 day = '2015-07-01'; # peak day for analysis
 
 maxTrials = 1200;
-XFMR = 75; # Transformer rating (kVA)
+#XFMR = 75; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
