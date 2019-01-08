@@ -167,7 +167,7 @@ for trial in range(maxTrials):
     day_Amp_Flow_Prev = dfAvgAmps;
     day_P_bus_Prev = dfAvgPbus;
     
-    print('\n [--- Trial: '+ str(trial) +' CASE: C ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ' + str(XFMR) + 'kW  ---] \n')    
+    print('\n [--- Trial: '+ str(trial) +' CASE: B ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ' + str(XFMR) + 'kW  ---] \n')    
 
 #    
 #    #Output Data
