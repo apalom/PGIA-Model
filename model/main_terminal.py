@@ -15,13 +15,13 @@ import csv
 
 import sys
 
-print('Function Name: ', sys.argv[0])
-
-XFMR = int(sys.argv[1])
-maxTrials = int(sys.argv[2])
-
-print('Transformer Capacity (kW): ', XFMR)
-print('Max Simulation Trials (1200 recommended): ', maxTrials)
+#print('Function Name: ', sys.argv[0])
+#
+#XFMR = int(sys.argv[1])
+#maxTrials = int(sys.argv[2])
+#
+#print('Transformer Capacity (kW): ', XFMR)
+#print('Max Simulation Trials (1200 recommended): ', maxTrials)
 
 # start timer 
 timeMain = timeit.default_timer()
@@ -29,13 +29,14 @@ timeMain = timeit.default_timer()
 #XFMR = int(input('Enter XFMR Rating: '))
 #maxTrials = int(input('Enter Max Trials: '));
 
-#XFMR = 50;
-#maxTrials = 2;
+XFMR = 50;
+maxTrials = 2;
 
 # Load Data Function Call 
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
-dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
+#dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))
+dfSys['Gen'].Pg = np.zeros((9))
 
 
 #---- Define Parameters ----#
