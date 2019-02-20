@@ -13,11 +13,24 @@ import timeit
 from itertools import permutations 
 import csv
 
+import sys
+
+print('Function Name: ', sys.argv[0])
+
+XFMR = int(sys.argv[1])
+maxTrials = int(sys.argv[2])
+
+print('Transformer Capacity (kW): ', XFMR)
+print('Max Simulation Trials (1200 recommended): ', maxTrials)
+
 # start timer 
 timeMain = timeit.default_timer()
 
-XFMR = int(input('Enter XFMR Rating: '))
-maxTrials = int(input('Enter Max Trials: '));
+#XFMR = int(input('Enter XFMR Rating: '))
+#maxTrials = int(input('Enter Max Trials: '));
+
+#XFMR = 50;
+#maxTrials = 2;
 
 # Load Data Function Call 
 from funcLoadData import funcLoadData
@@ -28,7 +41,6 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 3;
 #XFMR = 75; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
@@ -177,7 +189,13 @@ for trial in range(maxTrials):
 outAvgAmps = dfAvgAmps/(trial+1);
 outAvgPbus = dfAvgPbus/(trial+1);
 
-#%%   
+#%% Print Results
+
+import os
+cwd = os.getcwd()
+
+print(r'[--- Output results to C:\Users\Alex\Documents\GitHub\PGIA-Model\model\outputData ---]', '\n')
+
 fileName = 'outputData\\0-outPxfmr_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
 with open(fileName, 'w') as outputFile:  
