@@ -15,28 +15,28 @@ import csv
 
 import sys
 
-#print('Function Name: ', sys.argv[0])
-#
-#XFMR = int(sys.argv[1])
-#maxTrials = int(sys.argv[2])
-#
-#print('Transformer Capacity (kW): ', XFMR)
-#print('Max Simulation Trials (1200 recommended): ', maxTrials)
+print('Function Name: ', sys.argv[0])
 
-# start timer 
+XFMR = int(sys.argv[1])
+maxTrials = int(sys.argv[2])
+
+print('Transformer Capacity (kW): ', XFMR)
+print('Max Simulation Trials (1200 recommended): ', maxTrials)
+
+## start timer 
 timeMain = timeit.default_timer()
 
 #XFMR = int(input('Enter XFMR Rating: '))
 #maxTrials = int(input('Enter Max Trials: '));
 
-XFMR = 50;
-maxTrials = 2;
+#XFMR = 50;
+#maxTrials = 1;
 
 # Load Data Function Call 
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 #dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))
-dfSys['Gen'].Pg = np.zeros((9))
+dfSys['Gen'].at[:,'Pg'] = np.zeros((len(dfSys['Gen'].Pg)))
 
 
 #---- Define Parameters ----#
@@ -124,14 +124,16 @@ for trial in range(maxTrials):
         dfSys['Bus'].Qd = (loadHome_kVAR + loadEV_kVAR)[0][:]
         
         # Calculate PV Gen
-        dfSys['Gen'].Pg[1:] = genPV_kW[0][1:]
-        dfSys['Gen'].Pg[1:] = genPV_kVAR[0][1:]
+        dfSys['Gen'].at[1:,'Pg'] = genPV_kW[0][1:]
+        dfSys['Gen'].at[1:,'Qg'] = genPV_kVAR[0][1:]
+        #dfSys['Gen'].Pg[1:] = genPV_kW[0][1:]
+        #dfSys['Gen'].Pg[1:] = genPV_kVAR[0][1:]
         
         # Calculate Slack Bus Gen
         slackBus = dfSys['Gen'][dfSys['Gen'].bus == 1].index[0]
            
-        dfSys['Gen'].Pg[slackBus] = sum(sum(loadHome_kW + loadEV_kW - genPV_kW))
-        dfSys['Gen'].Qg[slackBus] = sum(sum(loadHome_kVAR + loadEV_kVAR - genPV_kVAR))
+        dfSys['Gen'].at[slackBus, 'Pg'] = sum(sum(loadHome_kW + loadEV_kW - genPV_kW))
+        dfSys['Gen'].at[slackBus, 'Qg'] = sum(sum(loadHome_kVAR + loadEV_kVAR - genPV_kVAR))
                 
         # DC Powerflow Function Call 
         from funcDCPF import funcDCPF
@@ -195,7 +197,7 @@ outAvgPbus = dfAvgPbus/(trial+1);
 import os
 cwd = os.getcwd()
 
-print(r'[--- Output results to C:\Users\Alex\Documents\GitHub\PGIA-Model\model\outputData ---]', '\n')
+print(r' <--- Output results to C:\Users\Alex\Documents\GitHub\PGIA-Model\model\outputData --->', '\n')
 
 fileName = 'outputData\\0-outPxfmr_' + str(trial) + '.csv'
 #outputFile = open(fileName, 'w')  
