@@ -20,7 +20,7 @@ def funcPeakDay(day, dfHome, dfNSRDB):
         dfHome['DATE'] = dfHome['DATE'].apply(lambda x: datetime.datetime.strftime(x, '%Y-%m-%d'));
         dfHomeDay = dfHome.loc[dfHome['DATE'] == day]
     except AttributeError:
-        print(' AttributeError')
+        #print(' AttributeError')
         dfHomeDay = dfHome.loc[dfHome['DATE'] == day]
     
     dfHomeDay = dfHomeDay.reset_index(drop=True)
@@ -49,7 +49,7 @@ def funcPeakDay(day, dfHome, dfNSRDB):
         tempData = tempData.loc[tempData.Day == d]
         
         col = 'yr'+ str(yr)
-        print(col)
+        #print(col)
         dfTempDay[col] = tempData.Temperature.values
         dfGHIDay[col] = tempData.GHI.values
     
