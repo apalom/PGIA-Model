@@ -37,7 +37,8 @@ def funcLoadData():
     timeLoadEV = timeit.default_timer()
     
     #dfEV0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0);
-    dfEV0 = pd.read_excel('data\\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0);
+    #dfEV0 = pd.read_excel('data\\All_EVProject2013Qtly_Residential_Hr.xlsx', header=0);    
+    dfEV0 = pd.read_excel('data\\All_EVProject2013Qtly_Residential_Hr_AggDmd.xlsx', header=0);
     dfEV = dfEV0;
     
     elapsedLoadEV = timeit.default_timer() - timeLoadEV

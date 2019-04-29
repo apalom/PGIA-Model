@@ -25,12 +25,12 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 1200;
+maxTrials = 100;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
-maxEV = 0;
+maxEV = 8;
 maxPV = 0;
 numHomes = 12;
 
@@ -174,7 +174,7 @@ for trial in range(maxTrials):
                         
     # XFMR Aging Function Call 
     from funcAging import funcAging
-    [day_Faa, day_thetaH] = funcAging(day_Temps, day_P_xfmr)
+    [day_Faa, day_thetaH] = funcAging(day_Temps, day_P_xfmr, XFMR)
     
         
     # Plot Heat Maps
