@@ -26,13 +26,13 @@ dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
 
-maxTrials = 100;
+maxTrials = 300;
 XFMR = 50; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
 maxEV = 8;
-maxPV = 0;
+maxPV = 8;
 numHomes = 12;
 
 # Calculate system values
@@ -88,8 +88,8 @@ for trial in range(maxTrials):
 
     ## -- case Base -- ##
     # Randomly assign EV and PV to buses
-    EVstoHomes = np.random.permutation(numHomes)[0:0]
-    PVtoHomes = np.random.permutation(numHomes)[0:0]
+    #EVstoHomes = np.random.permutation(numHomes)[0:0]
+    #PVtoHomes = np.random.permutation(numHomes)[0:0]
     
     ## -- case A -- ##
     # EVs Only At End of Lines [1, 6, 7, 12]
@@ -103,8 +103,8 @@ for trial in range(maxTrials):
     
     ## -- case C -- ##
     # Randomly assign EV and PV to buses
-    #EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
-    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
+    EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+    PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
     
     
     # Initialize Day Calculations
