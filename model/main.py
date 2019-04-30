@@ -17,10 +17,11 @@ import csv
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
+'''
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
-
+'''
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
