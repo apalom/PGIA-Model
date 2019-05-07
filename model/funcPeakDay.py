@@ -24,8 +24,8 @@ def funcPeakDay(day, dfHome, dfNSRDB):
         dfHomeDay = dfHome.loc[dfHome['DATE'] == day]
     
     dfHomeDay = dfHomeDay.reset_index(drop=True)
-    dfHomeDay = dfHomeDay.drop(columns=['DATE', 'Hour'])
-    
+    dfHomeDay = dfHomeDay.drop(['DATE', 'Hour'], axis=1)
+        
     #import NSRDB
     yr = 2008;
     tempCol = list(np.arange(2008,2018,1));

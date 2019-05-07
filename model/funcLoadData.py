@@ -17,8 +17,13 @@ def funcLoadData():
     
     #dfSys0 = pd.read_excel(r'C:\Users\Alex\Documents\GitHub\PGIA-Model\data\case12.xlsx', sheet_name=None, header=0)
     #dfSys0 = pd.read_excel(r'C:\Users\Alex Palomino\Documents\GitHub\PGIA-Model\model\data\case12.xlsx', sheet_name=None, header=0)
-    dfSys0 = pd.read_excel('data\\case12.xlsx', sheet_name=None, header=0)
-    dfSys = dfSys0;
+#    dfSys = {'Bus': pd.read_excel('data\\system\\case12_bus.xlsx', sheet_name=None, header=0),
+#             'Gen': pd.read_excel('data\\system\\case12_gen.xlsx', sheet_name=None, header=0),
+#             'Branch': pd.read_excel('data\\system\\case12_branch.xlsx', sheet_name=None, header=0)}    
+#    dfSys = {}
+#    dfSys = pd.read_excel('data\\case12.xlsx', sheet_name=None, header=0)
+    
+    dfSys = pd.read_excel('data\\case12.xlsx', None, header=0)
     
     elapsedLoadCase = timeit.default_timer() - timeLoadCase
     print('Load Case time: {0:.4f} sec'.format(elapsedLoadCase))
