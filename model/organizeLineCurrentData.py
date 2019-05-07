@@ -9,7 +9,7 @@ Created on Thu Jan  3 10:48:57 2019
 import pandas as pd
 import numpy as np
 
-path1 = 'outputData\\1200\\C8-'
+path1 = 'outputData\\50_kW_1200_AggDmd\\Base_Case\\'
 
 #test = np.zeros((maxTrials*24,1))
 
@@ -45,11 +45,10 @@ for column in data:
     tempDf.Case.iloc[stRow:enRow] = tempLabel;
     colNum += 1;
     
-data1 = tempDf;
+lineAmps = tempDf;
 
-#%%
+#%% Base Case
 
-lineAmps = data1;
 lineAmps = lineAmps.rename(columns={"Current": "Base"})
 
 #%% Case A

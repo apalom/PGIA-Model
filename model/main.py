@@ -17,11 +17,11 @@ import csv
 timeMain = timeit.default_timer()
 
 # Load Data Function Call 
-'''
+
 from funcLoadData import funcLoadData
 [dfSys, dfHome, dfEV, dfNSRDB] = funcLoadData()
 dfSys['Gen'].Pg = np.zeros((len(dfSys['Gen'].Pg)))[:]
-'''
+
 
 #---- Define Parameters ----#
 day = '2015-07-01'; # peak day for analysis
@@ -31,8 +31,8 @@ XFMR = 75; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
-maxEV = 8;
-maxPV = 0;
+maxEV = 4;
+maxPV = 4;
 numHomes = 12;
 
 # Calculate system values
@@ -98,13 +98,13 @@ for trial in range(maxTrials):
     
     ## -- case B -- ##
     # EVs + PVs At End of Lines
-    #EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
-    #PVtoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
+    EVstoHomes = [0, 1, 4, 5]#, 6, 7, 10, 11];
+    PVtoHomes = [0, 1, 4, 5]#, 6, 7, 10, 11];
     
     ## -- case C -- ##
     # Randomly assign EV and PV to buses
-    EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
-    PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
+    #EVstoHomes = np.random.permutation(numHomes)[0:maxEV]
+    #PVtoHomes = np.random.permutation(numHomes)[0:maxPV]
     
     
     # Initialize Day Calculations
@@ -200,7 +200,7 @@ for trial in range(maxTrials):
     day_Amp_Flow_Prev = dfAvgAmps;
     day_P_bus_Prev = dfAvgPbus;
     
-    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ---] \n')    
+    print('\n [--- Trial: '+ str(trial) +' CASE: ' + str(maxEV) + 'EVs ' + str(chgrRate) + 'kW chgr ' + str(maxPV) + 'PV ' + XFMR + 'kVA ---] \n')    
 
 #    
 #    #Output Data
