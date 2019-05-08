@@ -31,7 +31,7 @@ XFMR = 75; # Transformer rating (kVA)
 XFMRlimit= 1.3 * XFMR;
 secLimit = 218 # Amps for Overload Based [218 for 4/0 AL cables in DA411]
 chgrRate = 12.9; # Average charger power rating (kW)
-maxEV = 8;
+maxEV = 4;
 maxPV = 0;
 numHomes = 12;
 
@@ -93,7 +93,7 @@ for trial in range(maxTrials):
     
     ## -- case A -- ##
     # EVs Only At End of Lines [1, 6, 7, 12]
-    EVstoHomes = [0, 1, 4, 5, 6, 7, 10, 11];
+    EVstoHomes = [0, 1, 4, 5]#, 6, 7, 10, 11];
     PVtoHomes = np.random.permutation(numHomes)[0:0];
     
     ## -- case B -- ##
