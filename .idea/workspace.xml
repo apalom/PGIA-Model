@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="036b1460-ea14-45f9-a666-15734e27249e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viz/style.css" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/viz/case12_branch.csv" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/.idea/workspace.xml" afterPath="$PROJECT_DIR$/viz/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/index.html" afterPath="$PROJECT_DIR$/viz/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/script.js" afterPath="$PROJECT_DIR$/viz/script.js" />
-    </list>
+    <list default="true" id="036b1460-ea14-45f9-a666-15734e27249e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
