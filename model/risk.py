@@ -32,15 +32,37 @@ plt.xlabel('Days')
 #%% Test Day Value
 
 T_left = 3500; # 3500 days left of life
-t_until = 3500; # 90 days until replacement
+t_until = 90; # 90 days until replacement
 
-dayRatio = int(np.ceil(T_left/t_until)); # What is the prob that you lose dayRatio days before next service? 
+
+#dayRatio = int(np.ceil(T_left/t_until)); 
+dayRatio = int((T_left/t_until)); # What is the prob that you lose dayRatio days before next service? 
 
 if dayRatio > len(n):
     print("\nProbability of failure before next service: \n 0.00")
 else:
-    fail_prob = n[dayRatio]
+    fail_prob = 1 - n[dayRatio]
     print("\nProbability of failure before next service: \n", np.round(fail_prob,4))   
+
+#%%
+import random
+
+T_left = 3500; # 3500 days left of life
+t_until = 30; # 90 days until replacement
+
+my_kde = st.gaussian_kde(lolData['Loss Days'].values)
+
+daysLost = 0;
+fail_prob = 1 - n;    
+for d in range(t_until):
+        
+    daysLost += np.clip(int(my_kde.resample(1)[0][0]), a_min=0, a_max=np.max(lolData.values));
+
+if daysLost >= T_left:
+    print("\nTransformer Failed")
+else:
+    daysLeft = int(T_left-daysLost)
+    print("\nTransformer has "+str(daysLeft)+" days left.")    
 
 #%% Plot data points
 
