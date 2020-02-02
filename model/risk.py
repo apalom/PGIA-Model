@@ -11,29 +11,44 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-lolData = pd.read_csv(r'outputData\50_kW_1200_AggDmd\Random EV-PV\4EV_4PV_12-9kW_rdm\LOL.csv')
+lolData00 = pd.read_csv(r'outputData\50_kW_1200_AggDmd\50_kW_1200_AggDmd\Base_Case\LOL.csv')
+lolData44 = pd.read_csv(r'outputData\50_kW_1200_AggDmd\Random EV-PV\4EV_4PV_12-9kW_rdm\LOL.csv')
+lolData88 = pd.read_csv(r'outputData\50_kW_1200_AggDmd\Random EV-PV\8EV_8PV_12-9kW_rdm\LOL.csv')
 
-my_kde = st.gaussian_kde(lolData['Loss Days'].values)
-sample = my_kde.resample(1)[0][0]
+#my_kde = st.gaussian_kde(lolData['Loss Days'].values)
+#sample = my_kde.resample(1)[0][0]
 
 #%% Plot CDF
 
 sns.set(style="whitegrid", font='Times New Roman', font_scale=1.5)
-#plt.figure(figsize=(12,8))
+f = plt.figure(figsize=(12,8))
 
-bns = np.arange(0,np.max(lolData.values),1)
-n, bins, patches = plt.hist(lolData.values, bins=bns, density=True, cumulative=True, alpha=0.90)
+bns = np.arange(0,np.max(lolData88.values),1)
+n, bins, patches = plt.hist(lolData88.values, bins=bns, density=True, cumulative=True, alpha=0.90)
 #plt.plot(bns, n)
 
 plt.title('Loss-of-Life Distribution')
 plt.ylabel('Likelihood')
 plt.xlabel('Days')
 
+#%% Output LoL CDF
+
+sns.set(style="whitegrid", font='Times New Roman', font_scale=1.5)
+f = plt.figure(figsize=(8,6))
+
+bns = np.arange(0,np.max(lolData.values)-1,1)
+plt.plot(bns, n)
+
+plt.title('Loss-of-Life Distribution')
+plt.ylabel('Likelihood')
+plt.xlabel('Days')
+
+f.savefig("cdf_LoL1.pdf", bbox_inches='tight')
+
 #%% Test Day Value
 
 T_left = 3500; # 3500 days left of life
-t_until = 90; # 90 days until replacement
-
+t_until = 50; # 90 days until replacement
 
 #dayRatio = int(np.ceil(T_left/t_until)); 
 dayRatio = int((T_left/t_until)); # What is the prob that you lose dayRatio days before next service? 
@@ -42,6 +57,7 @@ if dayRatio > len(n):
     print("\nProbability of failure before next service: \n 0.00")
 else:
     fail_prob = 1 - n[dayRatio]
+    print(n[dayRatio])
     print("\nProbability of failure before next service: \n", np.round(fail_prob,4))   
 
 #%%
